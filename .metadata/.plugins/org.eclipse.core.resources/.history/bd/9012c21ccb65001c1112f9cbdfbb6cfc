@@ -1,0 +1,88 @@
+package pay.my.buddy.service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import pay.my.buddy.dal.CompteRepository;
+import pay.my.buddy.entities.Client;
+import pay.my.buddy.entities.Compte;
+
+@Service
+public class CompteMetierImpl {
+	private static final Logger logger = LogManager.getLogger("CompteMetierImpl");
+
+	@Autowired
+	private CompteRepository compteRepository;
+
+	public Compte findCompteByIdClient(Long idClient) throws Exception {
+		logger.info("find compte by id client : " +idClient);
+		try {
+			Compte compte = (Compte) compteRepository.findCompteByIdClient(idClient);
+			logger.info("compte found : "+ compte.getClass());
+			return compte;
+
+		} catch (Exception e) {
+			logger.info("compte not found!");
+			throw new Exception("compte not found!");
+		}
+		
+	}
+
+//	public Compte save(Compte compte) {
+//		
+//		return compteRepository.save(entity);
+//	}
+
+	public Page<Compte> findAll(Pageable pageable) {
+		return compteRepository.findAll(pageable);
+	}
+
+	public List<Compte> findAll() {
+		return compteRepository.findAll();
+	}
+
+	public Compte findById(Long id) throws Exception {
+		logger.info("find compte by id : " + id);
+
+		try {
+			Compte compteFound= compteRepository.findById(id).get();
+			logger.info("client found : " + compteFound.getClient().getEmail() + " " + compteFound.getAmount());
+			return compteFound;
+		} catch (Exception e) {
+			logger.info("id not found!");
+			throw new Exception("id not found!");
+		}
+	}
+
+	public boolean existsById(Long id) {
+		return compteRepository.existsById(id);
+	}
+
+	public <S extends Compte> Page<S> findAll(Example<S> example, Pageable pageable) {
+		return compteRepository.findAll(example, pageable);
+	}
+
+	public void deleteById(Long id) {
+		compteRepository.deleteById(id);
+	}
+
+	public void delete(Compte entity) {
+		compteRepository.delete(entity);
+	}
+
+	public Compte getById(Long id) {
+		return compteRepository.getById(id);
+	}
+	
+	
+	
+}

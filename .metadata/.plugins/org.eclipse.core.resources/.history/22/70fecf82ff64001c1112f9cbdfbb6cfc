@@ -1,0 +1,43 @@
+package buddy.my.pay.entity;
+
+import java.util.Date;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("S")
+public class VirementSent extends Operation{
+	private String codeRecipient;
+	private String nameRecipient;
+
+	public String getNameRecipient() {
+		return nameRecipient;
+	}
+
+	public void setNameRecipient(String nameRecipient) {
+		this.nameRecipient = nameRecipient;
+	}
+
+	public VirementSent() {
+		super();
+	}
+
+	public String getCodeRecipient() {
+		return codeRecipient;
+	}
+
+	public void setCodeRecipient(String codeRecipient) {
+		this.codeRecipient = codeRecipient;
+	}
+
+	public VirementSent(Date dateOperation, double amount, String description, Compte compte, String codeRecipient) {
+		super(dateOperation, amount, description, compte);
+		this.codeRecipient = codeRecipient;
+	}
+	
+	
+	
+	
+
+}

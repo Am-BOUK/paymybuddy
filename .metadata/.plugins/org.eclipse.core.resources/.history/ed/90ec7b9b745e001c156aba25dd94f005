@@ -1,0 +1,5 @@
+package pay.my.buddy.web;
+
+public class OperationRestService {
+
+}

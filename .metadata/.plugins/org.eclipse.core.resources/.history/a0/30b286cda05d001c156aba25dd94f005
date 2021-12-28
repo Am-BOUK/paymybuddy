@@ -1,0 +1,20 @@
+package pay.my.buddy.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.entities.Client;
+
+public class ClientServiceImpl implements IClientService{
+	@Autowired
+	private ClientRepository clientRepository;
+	
+	@Override
+	public List<Client> clientsList() {
+		
+		return clientRepository.findAll();
+	}
+
+}

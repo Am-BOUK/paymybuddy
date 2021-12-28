@@ -1,0 +1,12 @@
+package pay.my.buddy.service;
+
+import pay.my.buddy.entities.Compte;
+
+public interface IPayMyBuddyMetier {
+	public Compte consulterCompte(String codeCompte);
+	public void verser(String codeCompte, double montant);
+	public void retirer(String codeCompte, double montant);
+	public void virement(String codeCompte1,String codeCompte2, double montant);
+
+
+}

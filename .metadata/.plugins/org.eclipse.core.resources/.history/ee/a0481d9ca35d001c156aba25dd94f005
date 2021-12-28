@@ -1,0 +1,9 @@
+package pay.my.buddy.service;
+
+import java.util.List;
+
+import pay.my.buddy.entities.Client;
+
+public interface IClientService {
+	public List<Client> clientsList();
+}

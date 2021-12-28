@@ -1,0 +1,5 @@
+package pay.my.buddy.service;
+
+public class ClientServiceImpl {
+
+}

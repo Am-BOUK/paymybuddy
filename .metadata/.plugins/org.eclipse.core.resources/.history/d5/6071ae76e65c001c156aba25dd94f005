@@ -1,0 +1,11 @@
+package pay.my.buddy.entities;
+
+import java.io.Serializable;
+import java.util.Date;
+
+public class Operation implements Serializable {
+	private Long numero;
+	private Date dateOperation;
+	private double montant;
+	private Compte compte;
+}

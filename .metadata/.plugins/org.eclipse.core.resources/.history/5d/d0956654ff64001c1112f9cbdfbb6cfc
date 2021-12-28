@@ -1,0 +1,9 @@
+package pay.my.buddy.entities;
+
+public class Snippet {
+	public static void main(String[] args) {
+		package pay.my.buddy.entites;
+		
+	}
+}
+

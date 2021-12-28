@@ -1,0 +1,72 @@
+package pay.my.buddy.service;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import pay.my.buddy.dal.CompteRepository;
+import pay.my.buddy.dal.OperationRepository;
+import pay.my.buddy.entities.Compte;
+import pay.my.buddy.entities.Operation;
+import pay.my.buddy.entities.Retrait;
+import pay.my.buddy.entities.Versement;
+
+@Service
+@Transactional
+public class PayMyBuddyMetrierImpl implements IPayMyBuddyMetier {
+
+	@Autowired
+	private CompteRepository compteRepository;
+	@Autowired
+	private OperationRepository operationRepository;
+
+	@Override
+	public Compte consulterCompte(String codeCompte) {
+		Compte cp = compteRepository.findById(codeCompte).orElse(null);
+		if (cp == null) {
+			throw new RuntimeException("Compte introuvable");
+		}
+		return cp;
+	}
+
+	@Override
+	public void verser(String codeCompte, double montant) {
+		Compte cp = consulterCompte(codeCompte);
+		Versement v = new Versement(new Date(), montant, cp);
+		operationRepository.save(v);
+		cp.setAmount(cp.getAmount() + montant);
+		compteRepository.save(cp);
+
+	}
+
+	@Override
+	public void retirer(String codeCompte, double montant) {
+		Compte cp = consulterCompte(codeCompte);
+		if (cp.getAmount() < montant) {
+			throw new RuntimeException("Solde insuffisant!");
+		}
+		Retrait r = new Retrait(new Date(), montant, cp);
+		operationRepository.save(r);
+		cp.setAmount(cp.getAmount() - montant);
+		compteRepository.save(cp);
+
+	}
+
+	@Override
+	public void virement(String codeCompte1, String codeCompte2, double montant) {
+		retirer(codeCompte1, montant);
+		verser(codeCompte2, montant);
+
+	}
+
+	@Override
+	public Page<Operation> listOperation(String codeCompte, int page, int size) {
+		return operationRepository.listOperation(codeCompte, PageRequest.of(page, size));
+
+	}
+
+}

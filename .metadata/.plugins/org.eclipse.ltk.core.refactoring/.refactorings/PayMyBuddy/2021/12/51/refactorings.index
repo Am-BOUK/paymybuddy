@@ -1,0 +1,17 @@
+1640380818174	Delete elements
+1640380833715	Delete element
+1640381186271	Rename package 'constants'
+1640385581611	Rename local variable 'cp'
+1640385597147	Rename local variable 'codeCompte'
+1640385672690	Rename field 'codeSender'
+1640385901589	Rename local variable 'sender'
+1640385924139	Rename local variable 'recipient'
+1640472194422	Delete element
+1640473033472	Rename resource 'getCompte'
+1640473229080	Delete element
+1640473251827	Delete element
+1640516211306	Rename type 'ClientRestService'
+1640516235965	Rename type 'CompteRestService'
+1640517491256	Rename type 'PayMyBuddyMetrierImpl'
+1640517525755	Rename type 'IPayMyBuddyMetier'
+1640520093239	Rename type 'OperationRestService'

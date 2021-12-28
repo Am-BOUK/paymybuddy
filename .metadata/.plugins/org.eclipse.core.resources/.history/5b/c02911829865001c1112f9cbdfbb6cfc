@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Add Person</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<div class="container overflow-hidden"></div>
+	<div class="mx-auto col-6">
+		<div class="p-3 border bg-light">
+			<div class="card">
+				<div class="card-header bg-primary">Enregister un nouveau
+					client</div>
+				<div class="card-body">
+					<form th:action="${savePerson}" method="post">
+						<div>
+							<label>Nom : </label> <input type="text" name="name" />
+						</div>
+						<div>
+							<label>Email : </label> <input type="text" name="email" />
+						</div>
+
+						<div>
+							<label>Mot de passe : </label> <input type="text" name="password" />
+						</div>
+						<div>
+							<label>Code compte : </label> <input type="text"
+								name="codeCompte" />
+						</div>
+						<button type="submit" class="btn btn-success">Enregister</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

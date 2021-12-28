@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Person List</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<h1>Liste des comptes</h1>
+	<br />
+	<br />
+	<div>
+		<table border="1">
+			<tr>
+				<th>code du compte</th>
+				<th>Email</th>
+				<th>nom</th>
+				<th>prénom</th>
+				<th>solde</th>
+				<th>date création</th>
+
+
+
+			</tr>
+			<tr th:each="compte : ${comptes}">
+				<td th:utext="${compte.idCompte}">...</td>
+				<td th:utext="${compte.client.email}">...</td>
+				<td th:utext="${compte.client.firstName}">...</td>
+				<td th:utext="${compte.client.lastName}">...</td>
+				<td th:utext="${compte.amount}">...</td>
+				<td th:utext="${compte.dateCreation}">...</td>
+
+
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+package pay.my.buddy.dal;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import pay.my.buddy.entities.Compte;
+
+@Repository
+public interface CompteRepository extends JpaRepository<Compte, String> {
+
+}

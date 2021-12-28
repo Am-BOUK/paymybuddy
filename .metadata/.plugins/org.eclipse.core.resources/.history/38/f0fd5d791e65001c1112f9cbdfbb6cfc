@@ -1,0 +1,181 @@
+package pay.my.buddy.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+import org.springframework.stereotype.Service;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.entities.Client;
+
+@Service
+public class ClientMetierImpl {
+	private static final Logger logger = LogManager.getLogger("PayMyBuddyMetrierImpl");
+
+	@Autowired
+	private ClientRepository clientRepository;
+
+	public Optional<Client> findById(Long id) throws Exception {
+		logger.info("find client by id : " + id);
+
+		try {
+			Optional<Client> clientfound = clientRepository.findById(id);
+			logger.info("client found : " + clientfound.get().getFirstName() + " " + clientfound.get().getLastName());
+			return clientfound;
+		} catch (Exception e) {
+			logger.info("id not found!");
+			throw new Exception("id not found!");
+		}
+	}
+
+	public List<Client> findClientByName(String name) throws Exception {
+		logger.info("find client by name : " + name);
+		List<Client> clients = getAllClients();
+		List<Client> clientsFound = new ArrayList<>();
+		for (Client client : clients) {
+			if (client.getFirstName().toLowerCase().contains(name.toLowerCase())
+					|| client.getLastName().toLowerCase().contains(name.toLowerCase())) {
+				clientsFound.add(client);
+
+			}
+
+		}
+		if (clientsFound.isEmpty()) {
+			logger.info("The list of client " + name + ", you want to get, is empty !");
+			throw new Exception("The list of client " + name + ", you want to get, is empty !");
+		}
+		System.out.println(clientsFound.get(0).getEmail());
+		return clientsFound;
+
+	}
+
+	public Client findClientByEmail(String email) throws Exception {
+		logger.info("find client by email : " + email);
+		try {
+			Client clientfound = clientRepository.findClientByEmail(email);
+			logger.info("client found : " + clientfound.getFirstName() + " " + clientfound.getLastName());
+			return clientfound;
+		} catch (Exception e) {
+			logger.info("email not found!");
+			throw new Exception("email not found!");
+		}
+
+	}
+
+	public Client save(Client client) {
+		return clientRepository.save(client);
+	}
+
+	public Optional<Client> findOne(Example<Client> example) {
+		return clientRepository.findOne(example);
+	}
+
+	public List<Client> getAllClients() {
+		logger.info("liste des clients");
+		return clientRepository.findAll();
+	}
+
+	public Page<Client> findAll(Pageable pageable) {
+		return clientRepository.findAll(pageable);
+	}
+
+	public List<Client> findAll(Sort sort) {
+		return clientRepository.findAll(sort);
+	}
+
+	public <S extends Client> List<S> saveAll(Iterable<S> entities) {
+		return clientRepository.saveAll(entities);
+	}
+
+	public void flush() {
+		clientRepository.flush();
+	}
+
+	public <S extends Client> S saveAndFlush(S entity) {
+		return clientRepository.saveAndFlush(entity);
+	}
+
+	public boolean existsById(Long id) {
+		return clientRepository.existsById(id);
+	}
+
+	public <S extends Client> List<S> saveAllAndFlush(Iterable<S> entities) {
+		return clientRepository.saveAllAndFlush(entities);
+	}
+
+	public <S extends Client> Page<S> findAll(Example<S> example, Pageable pageable) {
+		return clientRepository.findAll(example, pageable);
+	}
+
+	public <S extends Client> long count(Example<S> example) {
+		return clientRepository.count(example);
+	}
+
+	public void deleteAllInBatch(Iterable<Client> entities) {
+		clientRepository.deleteAllInBatch(entities);
+	}
+
+	public <S extends Client> boolean exists(Example<S> example) {
+		return clientRepository.exists(example);
+	}
+
+	public long count() {
+		return clientRepository.count();
+	}
+
+	public void deleteById(Long id) {
+		clientRepository.deleteById(id);
+	}
+
+	public <S extends Client, R> R findBy(Example<S> example, Function<FetchableFluentQuery<S>, R> queryFunction) {
+		return clientRepository.findBy(example, queryFunction);
+	}
+
+	public void deleteAllByIdInBatch(Iterable<Long> ids) {
+		clientRepository.deleteAllByIdInBatch(ids);
+	}
+
+	public void delete(Client entity) {
+		clientRepository.delete(entity);
+	}
+
+	public void deleteAllById(Iterable<? extends Long> ids) {
+		clientRepository.deleteAllById(ids);
+	}
+
+	public void deleteAllInBatch() {
+		clientRepository.deleteAllInBatch();
+	}
+
+	public void deleteAll(Iterable<? extends Client> entities) {
+		clientRepository.deleteAll(entities);
+	}
+
+	public void deleteAll() {
+		clientRepository.deleteAll();
+	}
+
+	public Client getById(Long id) {
+		return clientRepository.getById(id);
+	}
+
+	public <S extends Client> List<S> findAll(Example<S> example) {
+		return clientRepository.findAll(example);
+	}
+
+	public <S extends Client> List<S> findAll(Example<S> example, Sort sort) {
+		return clientRepository.findAll(example, sort);
+	}
+
+}

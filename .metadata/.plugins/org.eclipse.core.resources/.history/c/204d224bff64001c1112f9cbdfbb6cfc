@@ -1,0 +1,34 @@
+package pay.my.buddy.entities;
+
+import java.util.Date;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("VIR_RECIEV")
+public class Virement extends Operation{
+	private String codeCompte2;
+
+	public Virement() {
+		super();
+	}
+
+	public String getCodeCompte2() {
+		return codeCompte2;
+	}
+
+	public void setCodeCompte2(String codeCompte2) {
+		this.codeCompte2 = codeCompte2;
+	}
+
+	public Virement(Date dateOperation, double amount, String description, Compte compte, String codeCompte2) {
+		super(dateOperation, amount, description, compte);
+		this.codeCompte2 = codeCompte2;
+	}
+	
+	
+	
+	
+
+}

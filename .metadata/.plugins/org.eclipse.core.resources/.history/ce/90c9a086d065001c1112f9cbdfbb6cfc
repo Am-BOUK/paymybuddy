@@ -1,0 +1,11 @@
+package pay.my.buddy.service;
+
+import pay.my.buddy.entities.Compte;
+
+public interface ICompteMetier {
+
+	Compte consulterCompte(Long idCompte) throws Exception;
+
+	Compte findCompteByIdClient(Long idClient) throws Exception;
+
+}

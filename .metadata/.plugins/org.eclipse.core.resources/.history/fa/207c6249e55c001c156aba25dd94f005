@@ -1,0 +1,12 @@
+package pay.my.buddy.entities;
+
+import java.io.Serializable;
+import java.util.Collection;
+
+public class Client implements Serializable{
+	private Long code;
+	private String nom;
+	private String email;
+	private Collection<Compte> comptes;
+
+}

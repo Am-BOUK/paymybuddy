@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Person List</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<div class="row gy-5">
+		<div class="col-6">
+			<div class="p-3 border bg-light">
+				<div class="card mb-3">
+					<div class="card-header bg-primary">Consulter compte</div>
+					<div class="card-body">
+						<form th:action="@{/client}" method="get">
+							<div>
+								<label>Id client</label> <input type="text"
+									name="idClient" th:value="${idClient}" />
+								<button type="submit" class="btn btn-success">OK</button>
+							</div>
+						</form>
+						<div class="text-danger" th:if="${exception}"
+							th:text="${exception.message}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+</body>
+</html>

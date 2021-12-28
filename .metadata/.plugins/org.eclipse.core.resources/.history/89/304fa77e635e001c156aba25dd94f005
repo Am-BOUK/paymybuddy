@@ -1,0 +1,123 @@
+package pay.my.buddy.web;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.entities.Client;
+
+/**
+ * Implementing the management of interactions between the application user and
+ * the application.
+ *
+ */
+@RestController
+public class ClientRestService {
+	private static final Logger logger = LogManager.getLogger("ClientController");
+	/**
+	 * implementation of client business processing
+	 * 
+	 */
+	@Autowired
+	private ClientRepository clientRepository;
+
+	/**
+	 * Read - Get all clients
+	 * 
+	 * @return list of clients
+	 */
+	@RequestMapping(value = "/clients", method = RequestMethod.GET)
+	public List<Client> getAllClients() {
+		logger.info("Getting All Clients");
+		return clientRepository.findAll();
+	}
+
+	/**
+	 * Read-Get one client by email
+	 * 
+	 * @param email
+	 * @return a client object full filled
+	 */
+	@RequestMapping(value = "/client/{email}", method = RequestMethod.GET)
+	public Optional<Client> getClientByEmail(@PathVariable String email) {
+		return clientRepository.findById(email);
+	}
+
+	/**
+	 * Read-Get list client by name
+	 * 
+	 * @param email
+	 * @return a client object full filled
+	 */
+	@RequestMapping(value = "/chercherUser", method = RequestMethod.GET)
+	public Page<Client> chercher(@RequestParam(name = "name", defaultValue = "") String name,
+			@RequestParam(name = "page", defaultValue = "0") int page,
+			@RequestParam(name = "size", defaultValue = "5") int size) {
+		return clientRepository.chercher("%" + name + "%", PageRequest.of(page, size));
+	}
+//	// pour ajouter un contact
+//	@RequestMapping(value = "/user", method = RequestMethod.POST)
+//	public User save(@Valid @RequestBody User user) {
+//		return userRepository.save(user);
+//	}
+//
+//	// pour supprimer un contact
+//	@RequestMapping(value = "/user/{email}", method = RequestMethod.DELETE)
+//	public boolean supprimer(@PathVariable String email) {
+//		userRepository.deleteById(email);
+//		return true;
+//	}
+//
+//	// pour modifier tous les donner dun contact
+//	@RequestMapping(value = "/user/{email}", method = RequestMethod.PUT)
+//	public User save(@PathVariable String email, @RequestBody User user) {
+//		user.setEmail(email);
+//		return userRepository.save(user);
+//	}
+//
+//	// pour chercher un contact
+//	@RequestMapping(value = "/chercherUser", method = RequestMethod.GET)
+//	public Page<User> chercher(@RequestParam(name = "mc", defaultValue = "") String mc,
+//			@RequestParam(name = "page", defaultValue = "0") int page,
+//			@RequestParam(name = "size", defaultValue = "5") int size) {
+//		return userRepository.chercher("%" + mc + "%", PageRequest.of(page, size));
+//	}
+
+	/**
+	 * Handle specified types of exceptions ** Processing the validation errors:
+	 * 
+	 * @param ex argument of method not valid
+	 * @return
+	 */
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+			String fieldName = ((FieldError) error).getField();
+			String errorMessage = error.getDefaultMessage();
+			errors.put(fieldName, errorMessage);
+		});
+//				logger.info("the specified Person object is invalid : " + errors);
+		return errors;
+	}
+
+}
