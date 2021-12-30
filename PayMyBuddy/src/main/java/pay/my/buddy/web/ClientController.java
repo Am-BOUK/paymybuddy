@@ -1,5 +1,6 @@
 package pay.my.buddy.web;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,14 +50,9 @@ public class ClientController {
 	 * implementation of client business processing
 	 * 
 	 */
-	@Autowired
-	private ClientRepository clientRepository;
 
 	@Autowired
 	private IClientMetier clientMetier;
-
-	@Autowired
-	private ICompteMetier compteMetier;
 
 	/**
 	 * Read - Get all clients
@@ -97,55 +93,6 @@ public class ClientController {
 		return "clients/getClient";
 	}
 
-	/**
-	 * Read-Get list clients by name
-	 * 
-	 * @param name
-	 * @return a list of clients object full filled per page
-	 */
-	@RequestMapping(value = "/clientsByName", method = RequestMethod.GET)
-	public String findClientByFirstNameOrLastName(String name, Model model) {
-		model.addAttribute("name", name);
-		logger.info("getting client by name");
-		try {
-			List<Client> clientsByName = clientMetier.findClientByFirstNameOrLastName(name);
-			model.addAttribute("clientsByName", clientsByName);
-		} catch (Exception e) {
-			model.addAttribute("exception", e);
-		}
-		return "clients/getClientsByName";
-	}
-
-	/**
-	 * Read-Get list clients by name
-	 * 
-	 * @param name
-	 * @return a list of clients object full filled per page
-	 */
-	@RequestMapping(value = "/clientByEmail", method = RequestMethod.GET)
-	public String findClientByEmail(String email, Model model) {
-		model.addAttribute("email", email);
-		logger.info("getting client by name");
-		try {
-			Client clientByEmail = clientMetier.findClientByEmail(email);
-			model.addAttribute("clientByEmail", clientByEmail);
-		} catch (Exception e) {
-			model.addAttribute("exception", e);
-		}
-		return "clients/getClientByEmail";
-	}
-
-//	/**
-//	 * Create - Add a new client
-//	 * 
-//	 * @param client a client object
-//	 * @return The client object added
-//	 */
-//	@RequestMapping(value = "/client", method = RequestMethod.POST)
-//	public Client save(@Valid @RequestBody Client client) {
-//		return clientRepository.save(client);
-//	}
-
 	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.GET)
 	public String showAddPersonPage(Model model) {
 		Client client = new Client();
@@ -169,65 +116,19 @@ public class ClientController {
 
 	}
 
-//	/**
-//	 * Update - update an existing client
-//	 * 
-//	 * @param email  the email of the client to update
-//	 * @param client the client object updated
-//	 * @return client the client object updated
-//	 */
-//	@RequestMapping(value = "/client/{email}", method = RequestMethod.PUT)
-//	public Client save(@PathVariable String email, @RequestBody Client client) {
-//		client.setEmail(email);
-//		return clientRepository.save(client);
-//	}
+	@RequestMapping(value = "/saveConnection", method = RequestMethod.POST)
+	public String saveOperation(Model model, String email, Long idClient) {
+		try {
 
-//	/**
-//	 * Delete - delete a client
-//	 * 
-//	 * @param email the email of the client to delete
-//	 */
-//	@RequestMapping(value = "/client/{email}", method = RequestMethod.DELETE)
-//	public boolean deleteById(@PathVariable String email) {
-//		clientRepository.delete(email);
-//		return true;
-//	}
+			clientMetier.updateListConnection(idClient, email);
 
-	/**
-	 * Handle specified types of exceptions ** Processing the validation errors:
-	 * 
-	 * @param ex argument of method not valid
-	 * @return
-	 */
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	@ExceptionHandler(MethodArgumentNotValidException.class)
-//	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-//		Map<String, String> errors = new HashMap<>();
-//		ex.getBindingResult().getAllErrors().forEach((error) -> {
-//			String fieldName = ((FieldError) error).getField();
-//			String errorMessage = error.getDefaultMessage();
-//			errors.put(fieldName, errorMessage);
-//		});
-//		logger.info("the specified Client object is invalid : " + errors);
-//		return errors;
-//	}
+		} catch (Exception e) {
+			model.addAttribute("error", e);
+			return "redirect:/client?idClient=" + idClient + "&error=" + e.getMessage();
+		}
 
-	/**
-	 * Handle specified types of exceptions ** Processing the conflict errors:
-	 * 
-	 * @param ex argument of method not valid
-	 * @return message of errors
-	 */
-	@ResponseStatus(HttpStatus.CONFLICT)
-	@ExceptionHandler(Exception.class)
-	public Map<String, String> handleExceptions(Exception ex) {
-		Map<String, String> errors = new HashMap<>();
-		String fieldName = "";
-		String errorMessage = ex.getMessage();
-		errors.put(fieldName, errorMessage);
+		return "redirect:/client?idClient=" + idClient;
 
-		logger.info("the specified fire station object is invalid : " + errors);
-		return errors;
 	}
 
 }

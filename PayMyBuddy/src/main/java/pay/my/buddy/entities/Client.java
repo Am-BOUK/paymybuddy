@@ -51,34 +51,15 @@ public class Client implements Serializable {
 	private Compte compte;
 
 	@ManyToMany
-	@JoinTable(name="tbl_connections",
-	 joinColumns=@JoinColumn(name="clientId"),
-	 inverseJoinColumns=@JoinColumn(name="connectionId")
-	)
+	@JoinTable(name = "tbl_connections", joinColumns = @JoinColumn(name = "clientId"), inverseJoinColumns = @JoinColumn(name = "connectionId"))
 	private List<Client> connections;
 
-	@ManyToMany
-	@JoinTable(name="tbl_connections",
-	 joinColumns=@JoinColumn(name="connectionId"),
-	 inverseJoinColumns=@JoinColumn(name="clientId")
-	)
-	private List<Client> connectionOf;
-
-	
 	public List<Client> getConnections() {
 		return connections;
 	}
 
 	public void setConnections(List<Client> connections) {
 		this.connections = connections;
-	}
-
-	public List<Client> getConnectionOf() {
-		return connectionOf;
-	}
-
-	public void setConnectionOf(List<Client> connectionOf) {
-		this.connectionOf = connectionOf;
 	}
 
 	public Client() {
@@ -95,7 +76,6 @@ public class Client implements Serializable {
 		this.email = email;
 		this.password = password;
 		this.connections = new ArrayList<Client>();
-		this.connectionOf= new ArrayList<Client>();
 	}
 
 	public Long getIdClient() {

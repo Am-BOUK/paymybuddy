@@ -73,10 +73,10 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		payMyBuddyMetier.retirer((long) 4, 500, "retrait de mon compte");
 //		payMyBuddyMetier.virement((long) 4, (long) 3, 500, "frais d'études");
 
-		clientMetier.findClientByEmail("amal@gmail.com");
+//		clientMetier.findClientByEmail("amal@gmail.com");
 		clientMetier.findById((long) 2);
 //		clientMetier.findClientByName("Amal", 3, 2);
-		clientMetier.findClientByFirstNameOrLastName("al");
+//		clientMetier.findClientByFirstNameOrLastName("al");
 //		clientMetier.findClientByFirstNameOrLastName("toto");
 
 //		clientMetier.addNewClient(new Client("Jacob", "Boyd", "jacob@gmail.com", "jacob123"));

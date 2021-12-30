@@ -1,0 +1,252 @@
+package pay.my.buddy.web;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+import pay.my.buddy.constants.DefaultValuePages;
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.entities.Client;
+import pay.my.buddy.entities.Compte;
+import pay.my.buddy.service.IClientMetier;
+import pay.my.buddy.service.ICompteMetier;
+
+/**
+ * Implementing the management of interactions between the application user and
+ * the application.
+ *
+ */
+@Controller
+public class ClientController {
+	private static final Logger logger = LogManager.getLogger("ClientController");
+	/**
+	 * implementation of client business processing
+	 * 
+	 */
+	@Autowired
+	private ClientRepository clientRepository;
+
+	@Autowired
+	private IClientMetier clientMetier;
+
+	@Autowired
+	private ICompteMetier compteMetier;
+
+	/**
+	 * Read - Get all clients
+	 * 
+	 * @return list of clients
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/clients", method = RequestMethod.GET)
+	public String getAllClients(Model model) throws Exception {
+		logger.info("Getting All Clients");
+		List<Client> clients = clientMetier.getAllClients();
+		model.addAttribute("clients", clients);
+		return "clients/clientsList";
+	}
+
+	/**
+	 * Read-Get one client by email
+	 * 
+	 * @param email
+	 * @return a client object full filled
+	 */
+	@RequestMapping(value = "/client", method = RequestMethod.GET)
+	public String getClientById(Long idClient, Model model,
+			@RequestParam(name = "page", defaultValue = DefaultValuePages.PAGE) int page,
+			@RequestParam(name = "size", defaultValue = DefaultValuePages.SIZE) int size) {
+		logger.info("Getting client by id");
+		model.addAttribute("idClient", idClient);
+		try {
+			Client client = clientMetier.findById(idClient);
+			List<Client> connectionsList = client.getConnections();
+			model.addAttribute("client", client);
+			model.addAttribute("connectionsList", connectionsList);
+
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+		}
+
+		return "clients/getClient";
+	}
+
+	/**
+	 * Read-Get list clients by name
+	 * 
+	 * @param name
+	 * @return a list of clients object full filled per page
+	 */
+	@RequestMapping(value = "/clientsByName", method = RequestMethod.GET)
+	public String findClientByFirstNameOrLastName(String name, Model model) {
+		model.addAttribute("name", name);
+		logger.info("getting client by name");
+		try {
+			List<Client> clientsByName = clientMetier.findClientByFirstNameOrLastName(name);
+			model.addAttribute("clientsByName", clientsByName);
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+		}
+		return "clients/getClientsByName";
+	}
+
+	/**
+	 * Read-Get list clients by name
+	 * 
+	 * @param name
+	 * @return a list of clients object full filled per page
+	 */
+	@RequestMapping(value = "/clientByEmail", method = RequestMethod.GET)
+	public String findClientByEmail(String email, Model model) {
+		model.addAttribute("email", email);
+		logger.info("getting client by name");
+		try {
+			Client clientByEmail = clientMetier.findClientByEmail(email);
+			model.addAttribute("clientByEmail", clientByEmail);
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+		}
+		return "clients/getClientByEmail";
+	}
+
+//	/**
+//	 * Create - Add a new client
+//	 * 
+//	 * @param client a client object
+//	 * @return The client object added
+//	 */
+//	@RequestMapping(value = "/client", method = RequestMethod.POST)
+//	public Client save(@Valid @RequestBody Client client) {
+//		return clientRepository.save(client);
+//	}
+
+	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.GET)
+	public String showAddPersonPage(Model model) {
+		Client client = new Client();
+		model.addAttribute("client", client);
+		return "clients/addClient";
+	}
+
+	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.POST)
+	public String savePerson(Model model, @Valid @ModelAttribute("client") Client client, BindingResult result)
+			throws Exception {
+		if (result.hasErrors()) {
+			return "clients/addClient";
+		}
+		try {
+			clientMetier.addNewClient(client);
+			return "redirect:/clients";
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+			return "clients/addClient";
+		}
+
+	}
+	
+	@RequestMapping(value = "/saveConnection", method = RequestMethod.POST)
+	public String saveOperation(Model model, String email, Long idClient) {
+		try {
+			Client connection= clientMetier.findClientByEmail(email);
+			Client client = clientMetier.findById(idClient);
+			client.setConnections(Arrays.asList(connection));
+			
+			
+			
+		} catch (Exception e) {
+			model.addAttribute("error", e);
+			return "redirect:/client?idClient=" + idClient + "&error=" + e.getMessage();
+		}
+
+		return "redirect:/compte?idCompte=" + idClient;
+
+	}
+
+//	/**
+//	 * Update - update an existing client
+//	 * 
+//	 * @param email  the email of the client to update
+//	 * @param client the client object updated
+//	 * @return client the client object updated
+//	 */
+//	@RequestMapping(value = "/client/{email}", method = RequestMethod.PUT)
+//	public Client save(@PathVariable String email, @RequestBody Client client) {
+//		client.setEmail(email);
+//		return clientRepository.save(client);
+//	}
+
+//	/**
+//	 * Delete - delete a client
+//	 * 
+//	 * @param email the email of the client to delete
+//	 */
+//	@RequestMapping(value = "/client/{email}", method = RequestMethod.DELETE)
+//	public boolean deleteById(@PathVariable String email) {
+//		clientRepository.delete(email);
+//		return true;
+//	}
+
+	/**
+	 * Handle specified types of exceptions ** Processing the validation errors:
+	 * 
+	 * @param ex argument of method not valid
+	 * @return
+	 */
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
+//	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+//		Map<String, String> errors = new HashMap<>();
+//		ex.getBindingResult().getAllErrors().forEach((error) -> {
+//			String fieldName = ((FieldError) error).getField();
+//			String errorMessage = error.getDefaultMessage();
+//			errors.put(fieldName, errorMessage);
+//		});
+//		logger.info("the specified Client object is invalid : " + errors);
+//		return errors;
+//	}
+
+	/**
+	 * Handle specified types of exceptions ** Processing the conflict errors:
+	 * 
+	 * @param ex argument of method not valid
+	 * @return message of errors
+	 */
+	@ResponseStatus(HttpStatus.CONFLICT)
+	@ExceptionHandler(Exception.class)
+	public Map<String, String> handleExceptions(Exception ex) {
+		Map<String, String> errors = new HashMap<>();
+		String fieldName = "";
+		String errorMessage = ex.getMessage();
+		errors.put(fieldName, errorMessage);
+
+		logger.info("the specified fire station object is invalid : " + errors);
+		return errors;
+	}
+
+}
