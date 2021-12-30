@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import pay.my.buddy.constants.DefaultValuePages;
 import pay.my.buddy.dal.ClientRepository;
 import pay.my.buddy.entities.Client;
 import pay.my.buddy.entities.Compte;
@@ -77,12 +79,17 @@ public class ClientController {
 	 * @return a client object full filled
 	 */
 	@RequestMapping(value = "/client", method = RequestMethod.GET)
-	public String getClientById(Long idClient, Model model) {
+	public String getClientById(Long idClient, Model model,
+			@RequestParam(name = "page", defaultValue = DefaultValuePages.PAGE) int page,
+			@RequestParam(name = "size", defaultValue = DefaultValuePages.SIZE) int size) {
 		logger.info("Getting client by id");
 		model.addAttribute("idClient", idClient);
 		try {
 			Client client = clientMetier.findById(idClient);
+			List<Client> connectionsList = client.getConnections();
 			model.addAttribute("client", client);
+			model.addAttribute("connectionsList", connectionsList);
+
 		} catch (Exception e) {
 			model.addAttribute("exception", e);
 		}
@@ -141,55 +148,39 @@ public class ClientController {
 
 	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.GET)
 	public String showAddPersonPage(Model model) {
-
 		Client client = new Client();
 		model.addAttribute("client", client);
-		Long idClient = client.getIdClient();
 		return "clients/addClient";
 	}
 
 	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.POST)
-	public String savePerson(Model model, @Valid Client client) throws Exception {
-//		if (bindingResult.hasErrors()) {
-//			System.out.println("errors");
-////			model.addAttribute("exception", e);
-//			return "clients/saveClient";
-//		}
-//		Compte compte = new Compte();
-//		compte.setAmount(0);
-//		compte.setDateCreation(new Date());
-//		compte.setClient(client);
-//		clientRepository.save(client);
-//		compteMetier.addNewCompte(compte);
-//		return "redirect:/clients";
-
+	public String savePerson(Model model, @Valid @ModelAttribute("client") Client client, BindingResult result)
+			throws Exception {
+		if (result.hasErrors()) {
+			return "clients/addClient";
+		}
 		try {
-		Compte compte= new Compte();
-		compte.setAmount(0);
-		compte.setDateCreation(new Date());
-		compte.setClient(client);
-		clientRepository.save(client);
-		compteMetier.addNewCompte(compte);
-		return "redirect:/clients";
+			clientMetier.addNewClient(client);
+			return "redirect:/clients";
 		} catch (Exception e) {
 			model.addAttribute("exception", e);
-			return "clients/saveClient";
+			return "clients/addClient";
 		}
 
 	}
 
-	/**
-	 * Update - update an existing client
-	 * 
-	 * @param email  the email of the client to update
-	 * @param client the client object updated
-	 * @return client the client object updated
-	 */
-	@RequestMapping(value = "/client/{email}", method = RequestMethod.PUT)
-	public Client save(@PathVariable String email, @RequestBody Client client) {
-		client.setEmail(email);
-		return clientRepository.save(client);
-	}
+//	/**
+//	 * Update - update an existing client
+//	 * 
+//	 * @param email  the email of the client to update
+//	 * @param client the client object updated
+//	 * @return client the client object updated
+//	 */
+//	@RequestMapping(value = "/client/{email}", method = RequestMethod.PUT)
+//	public Client save(@PathVariable String email, @RequestBody Client client) {
+//		client.setEmail(email);
+//		return clientRepository.save(client);
+//	}
 
 //	/**
 //	 * Delete - delete a client
@@ -208,18 +199,18 @@ public class ClientController {
 	 * @param ex argument of method not valid
 	 * @return
 	 */
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String errorMessage = error.getDefaultMessage();
-			errors.put(fieldName, errorMessage);
-		});
-		logger.info("the specified Client object is invalid : " + errors);
-		return errors;
-	}
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	@ExceptionHandler(MethodArgumentNotValidException.class)
+//	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+//		Map<String, String> errors = new HashMap<>();
+//		ex.getBindingResult().getAllErrors().forEach((error) -> {
+//			String fieldName = ((FieldError) error).getField();
+//			String errorMessage = error.getDefaultMessage();
+//			errors.put(fieldName, errorMessage);
+//		});
+//		logger.info("the specified Client object is invalid : " + errors);
+//		return errors;
+//	}
 
 	/**
 	 * Handle specified types of exceptions ** Processing the conflict errors:

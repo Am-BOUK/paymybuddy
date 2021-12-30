@@ -27,4 +27,7 @@ public interface IClientMetier {
 
 	void deleteClientByEmail(String email) throws Exception;
 
+	List<Client> getListConnection(Long idClient) throws Exception;
+
+
 }

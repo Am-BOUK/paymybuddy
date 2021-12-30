@@ -23,13 +23,37 @@
 				<div class="card-body">
 					<form th:action="@{/clientByEmail}" method="get">
 						<div>
-							<label>Id client</label> <input type="text" name="email"
+							<label>email client</label> <input type="text" name="email"
 								th:value="${email}" />
 							<button type="submit" class="btn btn-success">OK</button>
 						</div>
 					</form>
 					<div class="text-danger" th:if="${exception}"
 						th:text="${exception.message}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="mx-auto col-6" th:if="${clientByEmail}">
+		<div class="p-3 border bg-light">
+			<div class="card mb-3">
+				<div class="card-header bg-primary">Information sur le client</div>
+				<div class="card-body">
+					<table class="table table-striped">
+						<tr>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Email</th>
+							<th>Id Compte</th>
+						</tr>
+
+						<tr th:each="client : ${clientByEmail}">
+							<td th:utext="${client.lastName}"></td>
+							<td th:utext="${client.firstName}">...</td>
+							<td th:utext="${client.email}">...</td>
+							<td th:utext="${client.compte.idCompte}">...</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 		</div>

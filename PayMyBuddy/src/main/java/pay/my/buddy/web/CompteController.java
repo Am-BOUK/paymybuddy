@@ -82,9 +82,10 @@ public class CompteController {
 	public String consulterCompte(Long idCompte, Model model,
 			@RequestParam(name = "page" , defaultValue = DefaultValuePages.PAGE) int page,
 			@RequestParam(name = "size", defaultValue = DefaultValuePages.SIZE) int size) {
-		model.addAttribute("idCompte", idCompte);
+		
 		logger.info("Getting compte by code compte");
 		try {
+			model.addAttribute("idCompte", idCompte);
 			Compte compte = compteMetier.consulterCompte(idCompte);
 			Page<Operation> pageOperation = operationMetier.listOperation(idCompte, page, size);
 			int[] pages = new int[pageOperation.getTotalPages()];

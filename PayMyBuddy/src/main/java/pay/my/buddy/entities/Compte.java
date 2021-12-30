@@ -25,11 +25,9 @@ public class Compte implements Serializable {
 	private Long idCompte;
 	@NotNull(message = "date of creation is mandatory!")
 	private Date dateCreation;
-	@NotNull(message = "amount is mandatory!")
+	
 	@Column(length = 10)
 	private double amount;
-//	@Column(length = 10)
-//	private double facturation;
 	@OneToOne
 	@NotNull(message = "Id_CLIENT is mandatory!")
 	@JoinColumn(name = "Id_CLIENT", unique = true)
@@ -38,17 +36,9 @@ public class Compte implements Serializable {
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Collection<Operation> operations;
 
-//	public void setFacturation(double facturation) {
-//		this.facturation = facturation;
-//	}
-//
-//	public double getFacturation() {
-//		return facturation;
-//	}
 
 	public Compte() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Compte(Date dateCreation, double amount, Client client) {

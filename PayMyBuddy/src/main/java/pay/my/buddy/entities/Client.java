@@ -1,6 +1,7 @@
 package pay.my.buddy.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,10 +9,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,32 +28,62 @@ public class Client implements Serializable {
 	@GeneratedValue
 	@Column(length = 10)
 	private Long idClient;
-	@NotBlank(message = "first name is mandatory!")
+
+	@NotEmpty(message = "First name cannot be empty.")
 	@Column(length = 25)
 	private String firstName;
-	@NotBlank(message = "last name is mandatory!")
+
+	@NotEmpty(message = "Last name cannot be empty.")
 	@Column(length = 25)
 	private String lastName;
+
 	@Email
-	@NotBlank(message = "email is mandatory!")
+	@NotEmpty(message = "Email cannot be empty.")
 	@Column(length = 25, unique = true)
 	private String email;
-	@NotBlank(message = "password is mandatory!")
+
+	@NotBlank(message = "password cannot be empty.")
 	@Column(length = 25)
 	private String password;
+
 	@OneToOne(mappedBy = "client", fetch = FetchType.LAZY)
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private Compte compte;
+
+	@ManyToMany
+	@JoinTable(name="tbl_connections",
+	 joinColumns=@JoinColumn(name="clientId"),
+	 inverseJoinColumns=@JoinColumn(name="connectionId")
+	)
+	private List<Client> connections;
+
+	@ManyToMany
+	@JoinTable(name="tbl_connections",
+	 joinColumns=@JoinColumn(name="connectionId"),
+	 inverseJoinColumns=@JoinColumn(name="clientId")
+	)
+	private List<Client> connectionOf;
+
 	
-//	@ManyToMany
-//	private List<Client> cliens;
+	public List<Client> getConnections() {
+		return connections;
+	}
+
+	public void setConnections(List<Client> connections) {
+		this.connections = connections;
+	}
+
+	public List<Client> getConnectionOf() {
+		return connectionOf;
+	}
+
+	public void setConnectionOf(List<Client> connectionOf) {
+		this.connectionOf = connectionOf;
+	}
 
 	public Client() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-	
 
 	public Client(@NotNull(message = "first name is mandatory!") String firstName,
 			@NotNull(message = "last name is mandatory!") String lastName,
@@ -60,9 +94,9 @@ public class Client implements Serializable {
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.connections = new ArrayList<Client>();
+		this.connectionOf= new ArrayList<Client>();
 	}
-
-
 
 	public Long getIdClient() {
 		return idClient;

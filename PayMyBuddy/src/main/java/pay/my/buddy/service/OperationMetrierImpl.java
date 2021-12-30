@@ -78,7 +78,7 @@ public class OperationMetrierImpl implements IOperationMetier {
 		double facturation = montant * Fare.FACTURATION;
 
 		if (compteSender.getAmount() < montant + facturation) {
-			throw new RuntimeException("Solde insuffisant!");
+			throw new Exception("Solde insuffisant!");
 		}
 
 		compteSender.setAmount(compteSender.getAmount() - montant - facturation);

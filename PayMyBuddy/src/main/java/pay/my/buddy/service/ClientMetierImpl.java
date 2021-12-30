@@ -1,6 +1,7 @@
 package pay.my.buddy.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.dal.CompteRepository;
 import pay.my.buddy.entities.Client;
+import pay.my.buddy.entities.Compte;
 
 @Service
 public class ClientMetierImpl implements IClientMetier {
@@ -21,6 +24,9 @@ public class ClientMetierImpl implements IClientMetier {
 
 	@Autowired
 	private ClientRepository clientRepository;
+
+	@Autowired
+	private CompteRepository compteRepository;
 
 	@Override
 	public Client findById(Long id) throws Exception {
@@ -103,7 +109,12 @@ public class ClientMetierImpl implements IClientMetier {
 		logger.info("adding client " + client.getLastName() + " " + client.getFirstName());
 		try {
 			Client clientAdded = clientRepository.save(client);
-			logger.info("client added !");
+			Compte compte = new Compte();
+			compte.setAmount(0);
+			compte.setDateCreation(new Date());
+			compte.setClient(client);
+			compteRepository.save(compte);
+			logger.info("client and his compte added !");
 			return clientAdded;
 		} catch (Exception e) {
 			logger.info("can not addind client, email is already exist " + client.getEmail());
@@ -121,6 +132,21 @@ public class ClientMetierImpl implements IClientMetier {
 		} catch (Exception e) {
 			logger.info("can not getting list of all clients");
 			throw new Exception("can not getting list of all clients !");
+		}
+
+	}
+
+	@Override
+	public List<Client> getListConnection(Long idClient) throws Exception {
+		logger.info("getting liste of connections ");
+
+		Client client = findById(idClient);
+		try {
+			List<Client> connections = client.getConnections();
+			System.out.println(connections);
+			return connections;
+		} catch (Exception e) {
+			throw new Exception("Liste de connections est vide !");
 		}
 
 	}
@@ -166,5 +192,7 @@ public class ClientMetierImpl implements IClientMetier {
 		}
 
 	}
+
+	
 
 }

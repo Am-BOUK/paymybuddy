@@ -1,6 +1,8 @@
 package pay.my.buddy;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -31,7 +33,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 
 	@Autowired
 	private CompteRepository compteRepository;
-	
+
 	@Autowired
 	private CompteMetierImpl compteMetier;
 
@@ -76,16 +78,16 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		clientMetier.findClientByName("Amal", 3, 2);
 		clientMetier.findClientByFirstNameOrLastName("al");
 //		clientMetier.findClientByFirstNameOrLastName("toto");
-		
+
 //		clientMetier.addNewClient(new Client("Jacob", "Boyd", "jacob@gmail.com", "jacob123"));
 //		clientMetier.addNewClient(new Client("Jacob", "Boyd", "jacob@gmail.com", "jacob123"));
 //		clientMetier.addNewClient(new Client("Tarik", "Fakhri", "jacob@gmail.com", "jacob123"));
 
 		clientMetier.getAllClients();
 //		clientMetier.deleteClientByEmail("jacob@gmail.com");
-		
+
 //		clientMetier.getById((long) 2);
-		
+
 //		clientMetier.deleteClientById((long) 10);
 //		clientMetier.findById((long) 100);
 
@@ -96,8 +98,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		operationRepository.save(new Virement(new Date(), 300, "prête",compte10 , compte2));
 //		payMyBuddyMetier.virement("c1", "c8", 700, "Trip prête");
 //		payMyBuddyMetier.virement("c5", "c8", 1000, "Frais Soutenance");
-		
-		
+
 		compteMetier.findCompteByIdClient((long) 2);
 //		compteMetier.findCompteByIdClient((long) 200);
 
@@ -107,12 +108,45 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		compteMetier.addNewCompte(new Compte(new Date(), 6000, client));
 //		compteMetier.addNewCompte(new Compte(new Date(), 2500, client));
 		compteMetier.getAllComptes();
-		
-		
+
 //		operationMetier.retirer((long) 3, 250, "retrait");
 //		operationMetier.verser((long) 37, 3500, "alimentation du compte");
+
+//		List<Client> clientList= clientRepository.findByFirstNameOrLastNameContains("m","maach");
+//		
+//		clientList.forEach(c->{
+//			System.out.println(c.getEmail());
+//		});
+//		System.out.println(clientRepository.findByFirstNameAndLastNameContains("amal","boukili").getEmail());
+
+//		Client client1 = new Client("amina", "sadiqi", "amina@gmail.com", "sadiqi1234");
+//		clientMetier.addNewClient(client1);
+//
+//		Client client2 = new Client("Mohammed", "Daoudi", "mohammed@gmail.com", "123456");
+//		clientMetier.addNewClient(client2);
+//
+//		Client client3 = new Client("Sarah", "Bentabet", "bentabet@gmail.com", "789654");
+//		clientMetier.addNewClient(client3);
+//
+//		client3.setConnections(Arrays.asList(client2, client1));
+//
+//		clientRepository.save(client3);
+//
+//		client3.getConnections();
 		
+//		Client client3 = clientMetier.findById(126l);
+//		System.out.println(client3.getConnections());
 		
+//		System.out.println(client3.getConnections().get(1).getEmail());
+
+//		clientMetier.getListConnection(126l);
+//		System.out.println(clientMetier.getListConnection(126l));
+
+//		connectionsList.forEach(c->{
+//			System.out.println();
+//		});
+//		
+
 	}
 
 }
