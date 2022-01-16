@@ -27,11 +27,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests()
-		.antMatchers("/saveClient","/saveCompte")
+		http.authorizeRequests()
+		.antMatchers("/saveClient")
 		.permitAll()
 		.and()
 		.formLogin()
+		.loginPage("/login")
 		.defaultSuccessUrl("/compte", true)	
          .and()
          .authorizeRequests()
