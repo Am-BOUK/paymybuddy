@@ -1,0 +1,21 @@
+/**
+ * 
+ */
+package pay.my.buddy.repository;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+/**
+ * @author Amal
+ *
+ */
+class ClientRepositoryTest {
+
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

@@ -1,0 +1,125 @@
+/* Setting up paymybuddy DB */
+--
+-- Base de données : `paymybuddy`
+--
+
+-- --------------------------------------------------------
+CREATE DATABASE IF NOT EXISTS PAYMYBUDDY/
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `client`
+--
+
+DROP TABLE IF EXISTS `client`;
+CREATE TABLE IF NOT EXISTS `client` (
+  `id_client` bigint(20) NOT NULL,
+  `email` varchar(25) NOT NULL,
+  `first_name` varchar(25) NOT NULL,
+  `last_name` varchar(25) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id_client`),
+  UNIQUE KEY (`email`)
+)
+
+--
+-- chargement des données dans la table `client`
+--
+
+INSERT INTO `client` (`id_client`, `email`, `first_name`, `last_name`, `password`)
+ VALUES
+(1, 'amal@gmail.com', 'Amal', 'BOUKILI', '$2a$12$JgjIRWRBSeqml5saEyiKbO5muSSUzAPSKVP1E7mgJ1SXZxaTvCKBG'),
+(2, 'rostow@gmail.com', 'Rostow', 'GOKING', '$2a$12$mXSX8.8m2D0yi4fEUcsWE.Pigzqp1DC0lkpiKmw3JuLA2ZL4RX.Au')
+
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `compte`
+--
+
+DROP TABLE IF EXISTS `compte`;
+CREATE TABLE IF NOT EXISTS `compte` (
+  `id_compte` bigint(20) NOT NULL,
+  `amount` double NOT NULL,
+  `date_creation` datetime NOT NULL,
+  `id_client` bigint(20) NOT NULL,
+  PRIMARY KEY (`id_compte`),
+  FOREIGN KEY` (`id_client`)
+) 
+
+--
+-- Chargement des données dans la table `compte`
+--
+
+INSERT INTO `compte` (`id_compte`, `amount`, `date_creation`, `id_client`) VALUES
+(3, 0, '2021-12-25 13:07:46', 1),
+(4, 0, '2021-12-25 13:07:46', 2),
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `operation`
+--
+
+DROP TABLE IF EXISTS `operation`;
+CREATE TABLE IF NOT EXISTS `operation` (
+  `type_op` varchar(3) NOT NULL,
+  `id_operation` bigint(20) NOT NULL,
+  `amount` double NOT NULL,
+  `date_operation` datetime NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `facturation` double DEFAULT NULL,
+  `id_sender` bigint(20) DEFAULT NULL,
+  `name_sender` varchar(25) DEFAULT NULL,
+  `id_recipient` bigint(20) DEFAULT NULL,
+  `name_recipient` varchar(25) DEFAULT NULL,
+  `id_compte` bigint(20) NOT NULL,
+  PRIMARY KEY (`id_operation`),
+  FOREIGN KEY(`id_compte`)
+) 
+
+--
+-- Chargement des données dans la table `operation`
+--
+
+INSERT INTO `operation` 
+{`type_op`, `id_operation`, `amount`, `date_operation`, `description`, `facturation`, `id_sender`, `name_sender`, `id_recipient`, `name_recipient`, `id_compte`) 
+VALUES
+('V', 5, 1000, '2021-12-25 13:07:46', 'versement sur mon compte', 0, NULL, NULL, NULL, NULL, 3),
+('R', 8, 200, '2021-12-25 13:07:46', 'retrait de mon compte', 0, NULL, NULL, NULL, NULL, 3),
+('V', 9, 100, '2021-12-25 13:07:46', 'versement sur mon compte', 0, NULL, NULL, NULL, NULL, 4),
+('V', 10, 1000, '2021-12-25 13:07:46', 'versement sur mon compte', 0, NULL, NULL, NULL, NULL, 4),
+('R', 12, 500, '2021-12-25 13:07:46', 'versement sur mon compte', 0, NULL, NULL, NULL, NULL, 4),
+('E', 13, 200, '2021-12-25 13:07:46', 'cadeau anniversaire', 0, 3, NULL, NULL, NULL, 4),
+('S', 14, 200, '2021-12-25 13:07:46', 'cadeau anniversaire', 0, NULL, NULL, 4, NULL, 3),
+('S', 15, 500, '2021-12-25 13:07:46', 'frais d\'Ã©tudes', 2.5, NULL, NULL, 3, 'BOUKILI', 4),
+('E', 16, 500, '2021-12-25 13:07:46', 'frais d\'Ã©tudes', 0, 4, 'GOKING', NULL, NULL, 3),
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `tbl_connections`
+--
+
+DROP TABLE IF EXISTS `tbl_connections`;
+CREATE TABLE IF NOT EXISTS `tbl_connections` (
+  `client_id` bigint(20) NOT NULL,
+  `connection_id` bigint(20) NOT NULL,
+  FOREIGN KEY` (`connection_id`),
+  FOREIGN KEY` (`client_id`)
+) 
+--
+-- DÃ©chargement des donnÃ©es de la table `tbl_connections`
+--
+
+INSERT INTO `tbl_connections` (`client_id`, `connection_id`) VALUES
+(1, 2),
+(2, 1),
+
+COMMIT;

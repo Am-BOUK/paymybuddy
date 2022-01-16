@@ -1,37 +1,41 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorate="template">
 <head>
 <meta charset="UTF-8" />
 <title>Person List</title>
 <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+
 </head>
 <body>
-	<h1>Liste des clients</h1>
-	<a href="saveClient">Ajouter un client</a>
-	<br />
-	<br />
-	<div>
-		<table border="1">
-			<tr>
-				<th>Nom</th>
-				<th>Prénom</th>
-				<th>Email</th>
-				<th>mot de passe</th>
-				<th>Compte id</th>
+	<section layout:fragment="content">
+		<h1>Liste des clients</h1>
+		<a href="saveClient">Ajouter un client</a> <br /> <br />
+		<div>
+			<table border="1">
+				<tr>
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Email</th>
+					<th>mot de passe</th>
+					<th>Compte id</th>
 
 
 
-			</tr>
-			<tr th:each="client : ${clients}">
-				<td th:utext="${client.lastName}">...</td>
-				<td th:utext="${client.firstName}">...</td>
-				<td th:utext="${client.email}">...</td>
-				<td th:utext="${client.password}">...</td>
-				<td th:utext="${client.compte.idCompte}">...</td>
+				</tr>
+				<tr th:each="client : ${clients}">
+					<td th:utext="${client.lastName}">...</td>
+					<td th:utext="${client.firstName}">...</td>
+					<td th:utext="${client.email}">...</td>
+					<td th:utext="${client.password}">...</td>
+					<td th:utext="${client.compte.idCompte}">...</td>
 
 
-			</tr>
-		</table>
-	</div>
+				</tr>
+			</table>
+		</div>
+	</section>
 </body>
 </html>

@@ -1,0 +1,48 @@
+/**
+ * 
+ */
+package pay.my.buddy.repository;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.Rollback;
+
+import pay.my.buddy.dal.ClientRepository;
+
+/**
+ * a basic test class for testing Spring Data JPA repository
+ */
+@DataJpaTest
+/**
+ * Configured to work with the actual database
+ */
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+/**
+ * commit the changes
+ */
+@Rollback(false)
+public class ClientRepositoryTest {
+
+	/**
+	 * a wrapper of JPA's entityManager
+	 * we can use it in test class like a standard
+	 */
+	@Autowired
+	private TestEntityManager entityManager;
+	
+	@Autowired
+	private ClientRepository clientRepository;
+	
+	
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

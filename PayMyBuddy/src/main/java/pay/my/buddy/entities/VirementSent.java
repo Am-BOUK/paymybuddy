@@ -5,6 +5,13 @@ import java.util.Date;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+/**
+ * 
+ * implementation of business object : virement sent that it is one of
+ * operation type
+ *
+ * the virement sent data has two attribute : id recipient and name recipient
+ */
 @Entity
 @DiscriminatorValue("S")
 public class VirementSent extends Operation{

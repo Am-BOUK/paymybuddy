@@ -1,6 +1,0 @@
-package pay.my.buddy.entities;
-
-public class Retrait extends Operation{
-	
-
-}

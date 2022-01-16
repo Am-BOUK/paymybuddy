@@ -1,0 +1,26 @@
+package pay.my.buddy.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.dal.CompteRepository;
+@ExtendWith(MockitoExtension.class)
+
+class CompteServiceTest {
+	@Mock
+	private CompteRepository compteRepository;
+
+	@InjectMocks
+	private CompteMetierImpl compteMetier;
+	@Test
+	void test() {
+		fail("Not yet implemented");
+	}
+
+}

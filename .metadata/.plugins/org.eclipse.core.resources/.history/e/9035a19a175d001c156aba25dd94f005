@@ -1,9 +1,0 @@
-package pay.my.buddy.dal;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import pay.my.buddy.entities.Operation;
-
-public interface OperationRepository extends JpaRepository<Operation, Long>{
-
-}

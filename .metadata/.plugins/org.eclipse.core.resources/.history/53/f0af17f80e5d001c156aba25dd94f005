@@ -1,5 +1,0 @@
-package pay.my.buddy.dal;
-
-public interface CompteRepository {
-
-}

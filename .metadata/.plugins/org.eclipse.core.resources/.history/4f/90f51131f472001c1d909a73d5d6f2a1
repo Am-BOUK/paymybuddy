@@ -1,0 +1,137 @@
+package pay.my.buddy.web;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import pay.my.buddy.constants.DefaultValuePages;
+import pay.my.buddy.entities.Client;
+import pay.my.buddy.service.IClientMetier;
+
+/**
+ * Implementing the management of interactions between the application user and
+ * the application.
+ *
+ */
+@Controller
+public class ClientController {
+	private static final Logger logger = LogManager.getLogger("ClientController");
+
+	/**
+	 * Calling operations of the client service
+	 */
+
+	@Autowired
+	private IClientMetier clientMetier;
+
+	/**
+	 * Read - Get all clients
+	 * 
+	 * @return list of clients
+	 * @throws Exception
+	 */
+//	@RequestMapping(value = "/clients", method = RequestMethod.GET)
+//	public String getAllClients(Model model) throws Exception {
+//		logger.info("Getting All Clients");
+//		List<Client> clients = clientMetier.getAllClients();
+//		model.addAttribute("clients", clients);
+//		return "clients/clientsList";
+//	}
+
+	/**
+	 * Read-Get one client by id
+	 * 
+	 * @param idClient : id of the client we want to get his information
+	 * @param model    : Model defines a holder for client attributes and is
+	 *                 primarily designed for adding attributes to the model
+	 * @return a client page web
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/client", method = RequestMethod.GET)
+	public String getClientById(Long idClient, Model model
+//			@RequestParam(name = "page", defaultValue = DefaultValuePages.PAGE) int page,
+//			@RequestParam(name = "size", defaultValue = DefaultValuePages.SIZE) int size
+	) throws Exception {
+		logger.info("Getting client by id");
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String clientEmail = authentication.getName();
+		Client clientFound = clientMetier.findByEmail(clientEmail);
+		idClient = clientFound.getIdClient();
+		model.addAttribute("idClient", idClient);
+		try {
+			Client client = clientMetier.findById(idClient);
+			List<Client> connectionsList = client.getConnections();
+			model.addAttribute("client", client);
+			model.addAttribute("connectionsList", connectionsList);
+
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+		}
+
+		return "clients/getClient";
+	}
+
+	/**
+	 * show Add Client Page ** this method allows to show a form which we fill the
+	 * client information
+	 * 
+	 * @param model : Model defines a holder for client attributes and is primarily
+	 *              designed for adding attributes to the model
+	 * @return a saveClient page web
+	 * @throws Exception
+	 */
+	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.GET)
+	public String showAddClientPage(Model model) {
+		Client client = new Client();
+		model.addAttribute("client", client);
+		return "clients/addClient";
+	}
+
+	@RequestMapping(value = { "/saveClient" }, method = RequestMethod.POST)
+	public String saveClient(Model model, @Valid @ModelAttribute("client") Client client, BindingResult result)
+			throws Exception {
+		if (result.hasErrors()) {
+			return "clients/addClient";
+		}
+		try {
+			clientMetier.addNewClient(client);
+			return "redirect:/clients";
+		} catch (Exception e) {
+			model.addAttribute("exception", e);
+			return "clients/addClient";
+		}
+
+	}
+
+	@RequestMapping(value = "/saveConnection", method = RequestMethod.POST)
+	public String saveConnection(Model model, String email, Long idClient) {
+		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String clientEmail = authentication.getName();
+			Client clientFound = clientMetier.findByEmail(clientEmail);
+			idClient = clientFound.getIdClient();
+			clientMetier.updateListConnection(idClient, email);
+
+		} catch (Exception e) {
+			model.addAttribute("error", e);
+			return "redirect:/client?idClient=" + idClient + "&error=" + e.getMessage();
+		}
+
+		return "redirect:/compte";
+
+	}
+
+}

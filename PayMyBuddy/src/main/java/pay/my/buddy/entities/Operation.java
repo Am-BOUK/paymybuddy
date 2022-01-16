@@ -17,6 +17,14 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+/**
+ * 
+ * implementation of business object: operation that will be manipulated by the
+ * other layers.
+ *
+ * the person data is abstract class and has six attribute : id operation, date
+ * operation, amount, description, compte and facturation
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYPE_OP", discriminatorType = DiscriminatorType.STRING, length = 3)

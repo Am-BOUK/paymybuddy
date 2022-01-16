@@ -1,0 +1,69 @@
+/**
+ * 
+ */
+package pay.my.buddy.repository;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
+import java.util.Date;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.annotation.Rollback;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.entities.Client;
+import pay.my.buddy.entities.Compte;
+
+/**
+ * a basic test class for testing Spring Data JPA repository
+ * 
+ * Configured to work with the actual database
+ * 
+ * commit the changes
+ */
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+@Rollback(false)
+public class ClientRepositoryTest {
+
+	/**
+	 * a wrapper of JPA's entityManager we can use it in test class like a standard
+	 */
+	@Autowired
+	private TestEntityManager entityManager;
+
+	@Autowired
+	private ClientRepository clientRepository;
+
+	@Test
+	void testCreateClient() {
+		Client client = new Client();
+		client.setFirstName("FirstName");
+		client.setLastName("LASTNAME");
+		client.setEmail("firstName@gmail.com");
+		client.setPassword("firstName123");
+
+		Client client2 = new Client();
+		client2.setFirstName("FirstName");
+		client2.setLastName("LASTNAME");
+		client2.setEmail("firstName@gmail.com");
+		client2.setPassword("firstName123");
+
+//		Compte compte = new Compte(new Date(), 0, client);
+//		client.setCompte(compte);
+		client.setConnections(Arrays.asList(client2));
+
+		Client savedClient = clientRepository.save(client);
+//		Client existClient = entityManager.find(Client.class, savedClient);
+
+		assertThat(savedClient.getEmail()).isEqualTo("firstName@gmail.com");
+	}
+
+}

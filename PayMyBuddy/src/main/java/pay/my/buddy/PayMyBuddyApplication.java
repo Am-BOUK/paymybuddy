@@ -3,6 +3,7 @@ package pay.my.buddy;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -74,7 +75,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		payMyBuddyMetier.virement((long) 4, (long) 3, 500, "frais d'études");
 
 //		clientMetier.findClientByEmail("amal@gmail.com");
-		clientMetier.findById((long) 2);
+//		clientMetier.findById((long) 2);
 //		clientMetier.findClientByName("Amal", 3, 2);
 //		clientMetier.findClientByFirstNameOrLastName("al");
 //		clientMetier.findClientByFirstNameOrLastName("toto");
@@ -83,7 +84,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		clientMetier.addNewClient(new Client("Jacob", "Boyd", "jacob@gmail.com", "jacob123"));
 //		clientMetier.addNewClient(new Client("Tarik", "Fakhri", "jacob@gmail.com", "jacob123"));
 
-		clientMetier.getAllClients();
+//		clientMetier.getAllClients();
 //		clientMetier.deleteClientByEmail("jacob@gmail.com");
 
 //		clientMetier.getById((long) 2);
@@ -107,7 +108,7 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //		Client client= clientMetier.addNewClient(new Client("Jacob", "Boyd", "jacob@gmail.com", "jacob123"));
 //		compteMetier.addNewCompte(new Compte(new Date(), 6000, client));
 //		compteMetier.addNewCompte(new Compte(new Date(), 2500, client));
-		compteMetier.getAllComptes();
+//		compteMetier.getAllComptes();
 
 //		operationMetier.retirer((long) 3, 250, "retrait");
 //		operationMetier.verser((long) 37, 3500, "alimentation du compte");
@@ -146,7 +147,11 @@ public class PayMyBuddyApplication implements CommandLineRunner {
 //			System.out.println();
 //		});
 //		
-
+		
+//		Optional<Compte> compte= compteRepository.findCompteByClientEmail("toto@gmail.com");
+//		System.out.println(compte.get().getIdCompte());
+//		
+//		compteMetier.findCompteByClientEmail("toto@gmail.com");
 	}
 
 }

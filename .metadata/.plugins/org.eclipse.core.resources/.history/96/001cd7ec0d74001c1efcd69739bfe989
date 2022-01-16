@@ -1,0 +1,41 @@
+package pay.my.buddy.service;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+
+import java.util.Date;
+import java.util.Optional;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.dal.CompteRepository;
+import pay.my.buddy.entities.Client;
+import pay.my.buddy.entities.Compte;
+@ExtendWith(MockitoExtension.class)
+
+class CompteServiceTest {
+	@Mock
+	private CompteRepository compteRepository;
+
+	@InjectMocks
+	private CompteMetierImpl compteMetier;
+	
+	@Test
+	void testConsulterCompte() throws Exception {
+		Client client = new Client(); 
+		client.setEmail("test@test.com");
+		Compte compte = new Compte(new Date(), 0, client);
+		compte.setIdCompte(1l);
+//		Optional<Compte> optionalCompte = Optional.of(compte);
+		when(compteRepository.findById(1l)).thenReturn(Optional.of(compte));
+		Compte result = compteMetier.consulterCompte(1l);
+		assertEquals(result.getClient().getEmail(), "test@test.com");
+		
+	}
+
+}

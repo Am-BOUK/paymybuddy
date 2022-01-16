@@ -1,0 +1,5 @@
+package pay.my.buddy.constants;
+
+public class RoundingMode {
+
+}

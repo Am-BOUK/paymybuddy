@@ -1,5 +1,0 @@
-package buddy.my.pay.constants;
-
-public class Fare {
-	public static final double FACTURATION = 0.5/100;
-}

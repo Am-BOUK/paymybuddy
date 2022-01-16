@@ -21,12 +21,21 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
+/**
+ * 
+ * implementation of business object: Client that will be manipulated by the
+ * other layers.
+ *
+ * the client data has seven attribute : id client, first name,, last name,
+ * email, password, compte and connections list
+ */
+
 @Entity
 public class Client implements Serializable {
 
 	@Id
 	@GeneratedValue
-	@Column(length = 10)
+	@Column(length = 20)
 	private Long idClient;
 
 	@NotEmpty(message = "First name cannot be empty.")
@@ -43,7 +52,7 @@ public class Client implements Serializable {
 	private String email;
 
 	@NotBlank(message = "password cannot be empty.")
-	@Column(length = 25)
+	@Column(length = 255)
 	private String password;
 
 	@OneToOne(mappedBy = "client", fetch = FetchType.LAZY)

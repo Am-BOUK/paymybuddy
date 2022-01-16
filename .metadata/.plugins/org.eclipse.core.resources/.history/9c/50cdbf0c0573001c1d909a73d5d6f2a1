@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Person List</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+
+<div class="container">
+	<div>
+		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link " th:href='@{/compte}'>Home</a>
+				</li>
+				<li class="nav-item"><a class="nav-link"
+					th:href='@{/operations}'>Transfer</a></li>
+				<li class="nav-item"><a class="nav-link" th:href='@{/client}'>Profile</a></li>
+				<li class="nav-item"><a class="nav-link d-flex"
+					th:href='@{/logout}'>Log Off</a></li>
+			</ul>
+		</nav>
+	</div>
+
+</div>
+</head>
+<body>
+	<div class="container overflow-hidden"></div>
+	<div class="mx-auto col-6" th:if="${client}">
+		<div class="p-3 border bg-light">
+			<div class="card mb-3">
+				<div class="card-header bg-primary">Information sur le client</div>
+				<div class="card-body">
+					<div>
+						<label>Nom : </label> <label th:text="${client.lastName}"></label>
+					</div>
+					<div>
+						<label>Prénom : </label> <label th:text="${client.firstName}"></label>
+					</div>
+					<div>
+						<label>Email : </label> <label th:text="${client.Email}"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mx-auto col-6" th:if=" ${connectionsList}">
+		<div class="p-3 border bg-light">
+			<div class="card mb-3">
+				<div class="card-header bg-primary">Liste de connections</div>
+				<div class="card-body">
+					<div>
+						<span class="btn rounded-pill btn-outline-success"
+							onclick="document.getElementById('forAddConnection').style.display='block'">Ajouter
+							une connection</span>
+
+					</div>
+					<br /> <br />
+					<form id="forAddConnection" style="display: none"
+						th:action="@{saveConnection}" method="post">
+
+						<!-- <div>
+							<label>id Client </label> <input type="hidden" name="idClient"
+								th:value="${idClient}" /> <label th:text="${idClient}"></label>
+						</div> -->
+
+						<label>Email : </label> <input type="text" name="email" />
+
+
+						<button type="submit" class="btn btn-success">Ajouter</button>
+					</form>
+					<!-- <div class="text-danger" role="alert"
+						th:text="${#httpServletRequest.getParameter('error')}"></div>
+					<br /> <br /> -->
+
+
+
+					<div class="alert alert-danger d-flex align-items-center"
+						role="alert" th:if="${#httpServletRequest.getParameter('error')}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							fill="currentColor"
+							class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+							viewBox="0 0 16 16" role="img" aria-label="Warning:">
+   							 <path
+								d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+  						</svg>
+						<div th:text="${#httpServletRequest.getParameter('error')}"></div>
+					</div>
+
+					<div class="alert alert-danger d-flex align-items-center"
+						role="alert" th:if="${#httpServletRequest.getParameter('info')}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+							fill="currentColor"
+							class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"
+							viewBox="0 0 16 16" role="img" aria-label="Warning:">
+   							 <path
+								d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+  						</svg>
+						<div th:text="${#httpServletRequest.getParameter('info')}"></div>
+					</div>
+
+					<table class="table table-striped">
+						<tr>
+							<th>Nom</th>
+							<th>Prénom</th>
+
+							<th>Email</th>
+						</tr>
+
+						<tr th:each="connectionsList : ${connectionsList}">
+							<td th:utext="${connectionsList.lastName}"></td>
+							<td th:utext="${connectionsList.firstName}"></td>
+							<td th:utext="${connectionsList.email}"></td>
+						</tr>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

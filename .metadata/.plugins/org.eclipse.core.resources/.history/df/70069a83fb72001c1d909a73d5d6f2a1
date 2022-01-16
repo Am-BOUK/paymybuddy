@@ -1,0 +1,32 @@
+package pay.my.buddy.service;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+import pay.my.buddy.entities.Operation;
+
+
+/**
+ * 
+ * business interface that will allow implementation of application-specific
+ * business processing
+ * 
+ * The important part is, the return value from operations which is a operation
+ * object
+ * 
+ * It is used to interact with the database, defining method related to the
+ * operation entity. Then is called/autowired in a controller layer.
+ */
+public interface IOperationMetier {
+
+	public void verser(Long codeCompte, double montant, String descirtion) throws Exception;
+
+	public void retirer(Long codeCompte, double montant, String description) throws Exception;
+
+	public Page<Operation> listOperation(Long codeCompte, int page, int size);
+
+	public void virement(Long idSender, String emailReceiper, double montant, String description) throws Exception;
+
+//	public List<Operation> listAllOperations();
+}

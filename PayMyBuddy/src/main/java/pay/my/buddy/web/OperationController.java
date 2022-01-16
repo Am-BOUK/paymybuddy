@@ -1,121 +1,93 @@
 package pay.my.buddy.web;
 
-/**
- * Implementing the management of interactions between the application user and
- * the application.
- *
- */
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
-import pay.my.buddy.dal.OperationRepository;
-import pay.my.buddy.entities.Operation;
-import pay.my.buddy.entities.Retrait;
-import pay.my.buddy.entities.Versement;
+import pay.my.buddy.entities.Compte;
+import pay.my.buddy.service.ICompteMetier;
 import pay.my.buddy.service.IOperationMetier;
 
+/**
+ * Implementing the management of interactions between the application operation
+ * and the application.
+ *
+ */
 @Controller
 public class OperationController {
-	private static final Logger logger = LogManager.getLogger("OperationRestService");
+	private static final Logger logger = LogManager.getLogger("OperationController");
 	/**
-	 * implementation of client business processing
+	 * Calling methods of the operation service
 	 * 
 	 */
 	@Autowired
-	private OperationRepository operationRepository;
+	private IOperationMetier operationMetier;
+	/**
+	 * Calling methods of the compte service
+	 * 
+	 */
 	@Autowired
-	private IOperationMetier payMyBuddyMetier;
-
-	/**
-	 * Read - Get all operations
-	 * 
-	 * @return list of operations
-	 */
-	@RequestMapping(value = "/operations", method = RequestMethod.GET)
-	public String getAllOperations(Model model) {
-		logger.info("Getting All operations");
-		List<Operation> operations = operationRepository.findAll();
-		model.addAttribute("operations", operations);
-		return "operations/operationsList";
-	}
-
-	/**
-	 * Read-Get one operation by operation Id
-	 * 
-	 * @param operationId
-	 * @return a operation object full filled
-	 */
-	@RequestMapping(value = "/operation/{operationId}", method = RequestMethod.GET)
-	public Optional<Operation> getClientByCodeCompte(@PathVariable Long operationId) {
-		logger.info("Getting client by email");
-		return operationRepository.findById(operationId);
-	}
-
-	/**
-	 * Read-Get list operations by codeCompte
-	 * 
-	 * @param email
-	 * @return a list of operations object full filled per page
-	 */
-	@RequestMapping(value = "/operation", method = RequestMethod.GET)
-	public Page<Operation> findOperationsByCodeCompte(
-			@RequestParam(name = "codeCompte", defaultValue = "") Long codeCompte,
-			@RequestParam(name = "page", defaultValue = "0") int page,
-			@RequestParam(name = "size", defaultValue = "5") int size) {
-		logger.info("getting list of clients by name per page");
-		return operationRepository.listOperation(codeCompte , PageRequest.of(page, size));
-	}
+	private ICompteMetier compteMetier;
 
 //	/**
-//	 * Read-Get list operations by email client
+//	 * Read - Get all operations
 //	 * 
-//	 * @param email
-//	 * @return a list of operations object full filled per page
+//	 * @return list of operations
 //	 */
-//	@RequestMapping(value = "/operation/client", method = RequestMethod.GET)
-//	public Page<Operation> findOperationsByEmail(@RequestParam(name = "email", defaultValue = "") String email,
-//			@RequestParam(name = "page", defaultValue = "0") int page,
-//			@RequestParam(name = "size", defaultValue = "5") int size) {
-//		logger.info("getting list of clients by name per page");
-//		return operationRepository.listOperationByEmail("%" + email + "%", PageRequest.of(page, size));
+//	@RequestMapping(value = "/operations", method = RequestMethod.GET)
+//	public String getAllOperations(Model model) {
+//		logger.info("Getting All operations");
+//		List<Operation> operations = operationMetier.listAllOperations();
+//		model.addAttribute("operations", operations);
+//		return "operations/operationsList";
 //	}
 
+	/**
+	 * save operation ** this method allows to save a operation to database
+	 * 
+	 * @param model         : Model defines a holder for client attributes and is
+	 *                      primarily designed for adding attributes to the model
+	 * @param typeOperation : one of giving operation type (transfer, versement,
+	 *                      retrait)
+	 * 
+	 * @param idCcompte     : id of the compte making operation
+	 * @param amount        : amount of the operation
+	 * @param description   : the description of the operation
+	 * @param email         : email of the connection if we want make a transfer
+	 *                      operation
+	 * 
+	 * @return a compte page web
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/saveOperation", method = RequestMethod.POST)
 	public String saveOperation(Model model, String typeOperation, Long idCompte, double amount, String description,
-			Long idCompte2) {
+			String email) {
+		logger.info("save operation");
+
 		try {
+			Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+			String clientEmail = authentication.getName();
+			Compte clientFound = compteMetier.findCompteByClientEmail(clientEmail);
+			idCompte = clientFound.getIdCompte();
+
 			if (typeOperation.equals("VERS")) {
-				payMyBuddyMetier.verser(idCompte, amount, description);
+				logger.info("save payment operation");
+				operationMetier.verser(idCompte, amount, description);
 			} else if (typeOperation.equals("RETR")) {
-				payMyBuddyMetier.retirer(idCompte, amount, description);
+				logger.info("save withdraw operation");
+				operationMetier.retirer(idCompte, amount, description);
 			} else if (typeOperation.equals("VIR")) {
-				payMyBuddyMetier.virement(idCompte, idCompte2, amount, description);
-			} 
+				logger.info("save transfer operation");
+				operationMetier.virement(idCompte, email, amount, description);
+			}
 		} catch (Exception e) {
 			model.addAttribute("error", e);
 			return "redirect:/compte?idCompte=" + idCompte + "&error=" + e.getMessage();
@@ -125,108 +97,4 @@ public class OperationController {
 
 	}
 
-	/**
-	 * Create - Add a new versement
-	 * 
-	 * @param operation
-	 * @return operation object added
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/operation/versement", method = RequestMethod.POST)
-	public Operation saveVersement(@Valid @RequestBody Operation operation) throws Exception {
-		Versement v = new Versement();
-		v.setDateOperation(operation.getDateOperation());
-		v.setAmount(operation.getAmount());
-		v.setCompte(operation.getCompte());
-		v.setDescription(operation.getDescription());
-
-		payMyBuddyMetier.verser(v.getCompte().getIdCompte(), v.getAmount(), v.getDescription());
-
-		return operation;
-	}
-
-	/**
-	 * Create - Add a new retrait
-	 * 
-	 * @param operation
-	 * @return operation object added
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/operation/retrait", method = RequestMethod.POST)
-	public Operation saveRetrait(@Valid @RequestBody Operation operation) throws Exception {
-		Retrait r = new Retrait();
-		r.setDateOperation(operation.getDateOperation());
-		r.setAmount(operation.getAmount());
-		r.setCompte(operation.getCompte());
-		r.setDescription(operation.getDescription());
-
-		payMyBuddyMetier.retirer(r.getCompte().getIdCompte(), r.getAmount(), r.getDescription());
-
-		return operation;
-	}
-
-	/**
-	 * Create - Add a new virement
-	 * 
-	 * @param operation
-	 * @return operation object added
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/operation/virement/{idCompte2}", method = RequestMethod.POST)
-	public Operation saveVirement(@PathVariable Long idCompte2, @Valid @RequestBody Operation operation)
-			throws Exception {
-		payMyBuddyMetier.virement(operation.getCompte().getIdCompte(), idCompte2, operation.getAmount(),
-				operation.getDescription());
-		return operation;
-	}
-
-	
-
-	/**
-	 * Delete - delete a operation
-	 * 
-	 * @param operationId the operationId of the operation to delete
-	 */
-	@RequestMapping(value = "/operation/{operationId}", method = RequestMethod.DELETE)
-	public boolean deleteOperationById(@PathVariable Long operationId) {
-		operationRepository.deleteById(operationId);
-		return true;
-	}
-
-	/**
-	 * Handle specified types of exceptions ** Processing the validation errors:
-	 * 
-	 * @param ex argument of method not valid
-	 * @return
-	 */
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-		Map<String, String> errors = new HashMap<>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String errorMessage = error.getDefaultMessage();
-			errors.put(fieldName, errorMessage);
-		});
-		logger.info("the specified Client object is invalid : " + errors);
-		return errors;
-	}
-
-	/**
-	 * Handle specified types of exceptions ** Processing the conflict errors:
-	 * 
-	 * @param ex argument of method not valid
-	 * @return message of errors
-	 */
-	@ResponseStatus(HttpStatus.CONFLICT)
-	@ExceptionHandler(Exception.class)
-	public Map<String, String> handleExceptions(Exception ex) {
-		Map<String, String> errors = new HashMap<>();
-		String fieldName = "";
-		String errorMessage = ex.getMessage();
-		errors.put(fieldName, errorMessage);
-
-		logger.info("the specified fire station object is invalid : " + errors);
-		return errors;
-	}
 }

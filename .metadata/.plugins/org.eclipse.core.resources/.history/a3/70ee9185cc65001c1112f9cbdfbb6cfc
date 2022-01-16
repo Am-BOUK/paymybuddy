@@ -1,5 +1,0 @@
-package pay.my.buddy.service;
-
-public interface ICompteMetier {
-
-}
