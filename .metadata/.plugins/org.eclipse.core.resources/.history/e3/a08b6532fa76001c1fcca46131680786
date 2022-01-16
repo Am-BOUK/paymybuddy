@@ -151,7 +151,7 @@ class ClientServiceTest {
 		clientMetier.updateListConnection(1l, "connection@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Connection : connection@test.com, existe deja!");
+			assertThat(e.getMessage()).contains("Connection : connection@test.com, existe déjà!");
 		}
 
 	}

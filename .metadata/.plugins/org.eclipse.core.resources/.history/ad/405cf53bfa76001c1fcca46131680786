@@ -147,7 +147,7 @@ class CompteServiceTest {
 			compteMetier.findCompteByClientEmail("test@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Compte n'existe pas !");
+			assertThat(e.getMessage()).contains("Compte non trouvé !");
 		}
 
 	}

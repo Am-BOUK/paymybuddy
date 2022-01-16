@@ -143,7 +143,6 @@ INDEX VERSION 1.131+C:\Users\Amal\Google Drive\OpenClassrooms\workplace\P6\.meta
 2608398798.index
 1925312209.index
 1295900987.index
-1216704747.index
 561489618.index
 2078530014.index
 4276630984.index

@@ -80,7 +80,7 @@ class ClientServiceTest {
 			clientMetier.findByEmail("email@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Client : email@test.com, n'existe pas !");
+			assertThat(e.getMessage()).contains("Client : email@test.com, non trouvé !");
 		}
 	}
 
@@ -151,7 +151,7 @@ class ClientServiceTest {
 		clientMetier.updateListConnection(1l, "connection@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Connection : connection@test.com, existe deja!");
+			assertThat(e.getMessage()).contains("Connection : connection@test.com, existe déjà!");
 		}
 
 	}

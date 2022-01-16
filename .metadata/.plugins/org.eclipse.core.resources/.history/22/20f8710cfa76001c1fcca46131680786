@@ -55,7 +55,7 @@ class ClientServiceTest {
 			clientMetier.findById(2l);
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Client n'existe pas !");
+			assertThat(e.getMessage()).contains("Client non trouvé !");
 		}
 
 	}
@@ -80,7 +80,7 @@ class ClientServiceTest {
 			clientMetier.findByEmail("email@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Client : email@test.com, n'existe pas !");
+			assertThat(e.getMessage()).contains("Client : email@test.com, non trouvé !");
 		}
 	}
 
@@ -111,7 +111,7 @@ class ClientServiceTest {
 			clientMetier.addNewClient(client);
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Client : test@test.com, existe deja!");
+			assertThat(e.getMessage()).contains("Client : test@test.com, existe déjà!");
 		}
 	}
 
@@ -151,7 +151,7 @@ class ClientServiceTest {
 		clientMetier.updateListConnection(1l, "connection@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Connection : connection@test.com, existe deja!");
+			assertThat(e.getMessage()).contains("Connection : connection@test.com, existe déjà!");
 		}
 
 	}
@@ -169,7 +169,7 @@ class ClientServiceTest {
 			clientMetier.updateListConnection(1l, "connection@test.com");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Client : connection@test.com, n'existe pas !");
+			assertThat(e.getMessage()).contains("Client : connection@test.com, non trouvé !");
 		}
 
 	}

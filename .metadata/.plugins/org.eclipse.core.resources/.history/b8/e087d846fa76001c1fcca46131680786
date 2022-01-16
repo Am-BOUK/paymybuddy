@@ -191,7 +191,7 @@ class OperationServiceTest {
 			operationMetier.virement(compteSender.getIdCompte(), clientReceiper.getEmail(), 100, "Virement");
 		} catch (Exception e) {
 			assertTrue(e instanceof Exception);
-			assertThat(e.getMessage()).contains("Operation impossible : virement sur le meme compte");
+			assertThat(e.getMessage()).contains("Opération impossible : virement sur le même compte");
 		}
 	}
 
