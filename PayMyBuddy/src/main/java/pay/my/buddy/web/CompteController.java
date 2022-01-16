@@ -67,7 +67,7 @@ public class CompteController {
 	 * @return a compte page web
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/compte", method = RequestMethod.GET)
+	@RequestMapping(value = "/transfer", method = RequestMethod.GET)
 	public String consulterCompte(Long idCompte, Model model,
 			@RequestParam(name = "page", defaultValue = DefaultValuePages.PAGE) int page,
 			@RequestParam(name = "size", defaultValue = DefaultValuePages.SIZE) int size) {

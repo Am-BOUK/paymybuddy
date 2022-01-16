@@ -20,23 +20,47 @@
 	rel="stylesheet" crossorigin="anonymous" />
 </head>
 <body>
-	<div class="container">
-		<form class="form-signin" method="post" action="/login">
-			<h2 class="form-signin-heading">Please sign in in pay my buddy!!</h2>
+<div>
+			
+	<div>
+		<div class="jumbotron text-center">
+				<img src="/image/PayMyBuddy.png" class="img-fluid"
+					alt="PayMyBuddy logo">
+				<h1 class="text-success motto">Welcome to Pay My Buddy&nbsp;!</h1>
+				<h3 class="text-primary">We make moving your money
+					easy&nbsp;!!!</h3>
+			</div>
+		</div>
+		<form class="form-signin" method="post" th:action="@{/login}"
+			th:object="${client}">
+			
+			<h2 class="form-signin-heading">Connectez-vous à pay my buddy!!</h2>
+
+			<div th:if="${param.error}">
+				<div class="alert alert-danger">Email d’utilisateur ou mot de
+					passe non valide.</div>
+			</div>
+
+			<div th:if="${param.logout}">
+				<div class="alert-info">Vous avez été déconnecté.</div>
+			</div>
+
 			<p>
-				<label for="username" class="sr-only">Username</label> <input
-					type="text" id="username" name="username" class="form-control"
-					placeholder="Username" required autofocus>
+				<label for="username" class="sr-only">Email</label> <input
+					type="email" id="username" name="username" class="form-control"
+					placeholder="Email" required autofocus>
 			</p>
 			<p>
-				<label for="password" class="sr-only">Password</label> <input
+				<label for="password" class="sr-only">Mot de passe</label> <input
 					type="password" id="password" name="password" class="form-control"
-					placeholder="Password" required>
+					placeholder="Mot de passe" required>
 			</p>
-			<input name="_csrf" type="hidden"
-				value="7ccc2d70-5d47-4de5-bb9f-8dada7d30516" />
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-				in</button>
+			<!-- <input name="_csrf" type="hidden"
+				value="7ccc2d70-5d47-4de5-bb9f-8dada7d30516" /> -->
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Se
+				connecter</button>
+			Ou bien <a class="btn btn-lg btn-success btn-block" type="button"
+				href="/saveClient">Créer un nouveau compte !</a>
 		</form>
 	</div>
 </body>

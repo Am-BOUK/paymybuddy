@@ -57,11 +57,8 @@ public class ClientController {
 	 * @return a client page web
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/client", method = RequestMethod.GET)
-	public String getClientById(Long idClient, Model model
-//			@RequestParam(name = "page", defaultValue = DefaultValuePages.PAGE) int page,
-//			@RequestParam(name = "size", defaultValue = DefaultValuePages.SIZE) int size
-	) {
+	@RequestMapping(value = "/Profil", method = RequestMethod.GET)
+	public String getClientById(Long idClient, Model model) {
 		logger.info("Getting client by id");
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String clientEmail = authentication.getName();
@@ -118,7 +115,7 @@ public class ClientController {
 		}
 		try {
 			clientMetier.addNewClient(client);
-			return "redirect:/clients";
+			return "redirect:/profil?id="+client.getIdClient();
 		} catch (Exception e) {
 			model.addAttribute("exception", e);
 			return "clients/addClient";
@@ -150,10 +147,10 @@ public class ClientController {
 			model.addAttribute("info", info);
 		} catch (Exception e) {
 			model.addAttribute("error", e);
-			return "redirect:/client?idClient=" + idClient + "&error=" + e.getMessage();
+			return "redirect:/Profil?idClient=" + idClient + "&error=" + e.getMessage();
 		}
 
-		return "redirect:/client";
+		return "redirect:/Profil";
 
 	}
 
@@ -184,10 +181,10 @@ public class ClientController {
 
 		} catch (Exception e) {
 			model.addAttribute("error", e);
-			return "redirect:/compte?idCompte=" + idCompte + "&error=" + e.getMessage();
+			return "redirect:/transfer?idCompte=" + idCompte + "&error=" + e.getMessage();
 		}
 
-		return "redirect:/compte";
+		return "redirect:/transfer";
 
 	}
 

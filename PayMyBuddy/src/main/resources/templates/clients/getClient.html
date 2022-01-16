@@ -13,13 +13,13 @@
 
 <div class="container">
 	<div>
-		<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<nav class="navbar navbar-expand-sm bg-success navbar-dark">
 			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link " th:href='@{/compte}'>Home</a>
+				<li class="nav-item"><a class="nav-link " th:href='@{/home}'>Home</a>
 				</li>
 				<li class="nav-item"><a class="nav-link"
-					th:href='@{/operations}'>Transfer</a></li>
-				<li class="nav-item"><a class="nav-link" th:href='@{/client}'>Profile</a></li>
+					th:href='@{/transfer}'>Transfer</a></li>
+				<li class="nav-item"><a class="nav-link" th:href='@{/Profil}'>Profile</a></li>
 				<li class="nav-item"><a class="nav-link d-flex"
 					th:href='@{/logout}'>Log Off</a></li>
 			</ul>
@@ -29,6 +29,16 @@
 </div>
 </head>
 <body>
+<br />
+	<div>
+		<div class="jumbotron text-center">
+			<img src="/image/PayMyBuddy.png" class="img-fluid"
+				alt="PayMyBuddy logo">
+			<h1 class="text-success motto">Welcome to Pay My Buddy&nbsp;!</h1>
+			<h3 class="text-primary">We make moving your money easy&nbsp;!!!</h3>
+		</div>
+	</div>
+	<br />
 	<div class="container overflow-hidden"></div>
 	<div class="mx-auto col-6" th:if="${client}">
 		<div class="p-3 border bg-light">
@@ -69,7 +79,8 @@
 								th:value="${idClient}" /> <label th:text="${idClient}"></label>
 						</div> -->
 
-						<label>Email : </label> <input type="email" required="required" name="email" />
+						<label>Email : </label> <input type="email" required="required"
+							name="email" />
 
 
 						<button type="submit" class="btn btn-success">Ajouter</button>

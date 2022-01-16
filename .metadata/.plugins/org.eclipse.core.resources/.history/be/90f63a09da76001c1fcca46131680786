@@ -1,0 +1,21 @@
+package pay.my.buddy.web;
+
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+
+@Controller
+public class loginController {
+	Enregistreur Logger = LoggerFactory. getLogger(loginController. class);
+
+	
+	@GetMapping("/login")
+	public String login() {
+		return "login.html";
+	}
+	@GetMapping("/logout")
+	public String logout() {
+		return "redirect:/login?logout";
+	}
+}

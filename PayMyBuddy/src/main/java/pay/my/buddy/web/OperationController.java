@@ -1,7 +1,5 @@
 package pay.my.buddy.web;
 
-import javax.validation.Valid;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,10 +88,10 @@ public class OperationController {
 			}
 		} catch (Exception e) {
 			model.addAttribute("error", e);
-			return "redirect:/compte?idCompte=" + idCompte + "&error=" + e.getMessage();
+			return "redirect:/transfer?idCompte=" + idCompte + "&error=" + e.getMessage();
 		}
 
-		return "redirect:/compte?idCompte=" + idCompte;
+		return "redirect:/transfer?idCompte=" + idCompte;
 
 	}
 
