@@ -18355,3 +18355,4 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact org.webjars:p
 2022-01-16 14:18:32,337 [Worker-100: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 15 resources
 2022-01-16 14:18:32,342 [Worker-100: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2022-01-16 14:18:32,342 [Worker-100: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2022-01-16 14:18:32,342 [Worker-100: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Amal\Google Drive\OpenClassrooms\workplace\P6\PayMyBuddy\src\test\resources
