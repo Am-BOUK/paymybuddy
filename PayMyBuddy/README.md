@@ -27,7 +27,7 @@ Maven 3.6.3
 
 MySQL 5.7.31
 
-###Installing
+### Installing
 
 A step by step series of examples that tell you how to get a development env running:
 
@@ -44,11 +44,11 @@ https://maven.apache.org/install.html
 https://dev.mysql.com/downloads/installer/
 
 
-###Clone repo
+### Clone repo
 git clone https://github.com/Am-BOUK/paymybuddy.git
 
 
-###Running App
+### Running App
 
 * SQL scripts is present under the resources folder in the code base :
   https://github.com/Am-BOUK/paymybuddy/blob/main/PayMyBuddy/src/main/resources/date.sql
@@ -59,7 +59,7 @@ git clone https://github.com/Am-BOUK/paymybuddy.git
 * launch the application with the java -jar "path to the .jar" command
 	-java -jar "path to the .jar"
 
-###Testing
+### Testing
 
 The app has unit tests written. The existing tests need to be triggered from maven-surefire plugin while we try to generate the final executable jar file. 
 
@@ -74,8 +74,8 @@ Surefire report:
 - mvn site
 
 Jacoco report:
--mvn jacoco:report
+- mvn jacoco:report
 
 
-###Access to the application
+### Access to the application
 Open your browser, go to http://localhost:8080
