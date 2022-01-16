@@ -7,7 +7,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.6.1</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
 	</parent>
 	<groupId>buddy.pay</groupId>
 	<artifactId>PayMyBuddy</artifactId>
@@ -31,11 +31,7 @@
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
-	<!-- 	<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>3.6.0</version>
-		</dependency> -->
+
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>bootstrap</artifactId>
@@ -46,19 +42,10 @@
 			<artifactId>webjars-locator-core</artifactId>
 		</dependency>
 
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-		<!-- <dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-		</dependency> -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,7 +89,7 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- JUnit -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -134,7 +121,7 @@
 			<version>0.8.5</version>
 			<type>maven-plugin</type>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>

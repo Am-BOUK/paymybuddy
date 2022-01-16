@@ -21,8 +21,6 @@ public interface ICompteMetier {
 
 	public Compte addNewCompte(Compte compte) throws Exception;
 
-//	public List<Compte> getAllComptes();
-
 	public Compte findCompteByClientEmail(String email) throws Exception;
 
 	public Compte updateCompte(Compte compte);

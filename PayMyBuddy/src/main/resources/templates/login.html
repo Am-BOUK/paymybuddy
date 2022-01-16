@@ -20,10 +20,10 @@
 	rel="stylesheet" crossorigin="anonymous" />
 </head>
 <body>
-<div>
-			
 	<div>
-		<div class="jumbotron text-center">
+
+		<div>
+			<div class="jumbotron text-center">
 				<img src="/image/PayMyBuddy.png" class="img-fluid"
 					alt="PayMyBuddy logo">
 				<h1 class="text-success motto">Welcome to Pay My Buddy&nbsp;!</h1>
@@ -33,7 +33,7 @@
 		</div>
 		<form class="form-signin" method="post" th:action="@{/login}"
 			th:object="${client}">
-			
+
 			<h2 class="form-signin-heading">Connectez-vous à pay my buddy!!</h2>
 
 			<div th:if="${param.error}">

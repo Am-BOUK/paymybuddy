@@ -89,19 +89,12 @@ public class CompteMetierImpl implements ICompteMetier {
 		logger.info("compte added : " + compte.getIdCompte());
 		return compteAdded;
 	}
-	
+
 	@Override
 	public Compte updateCompte(Compte compte) {
 		return compteRepository.saveAndFlush(compte);
-		
-	}
 
-//	@Override
-//	public List<Compte> getAllComptes() {
-//		List<Compte> getAllComptes = compteRepository.findAll();
-//		logger.info("getting liste of all comptes ");
-//		return getAllComptes;
-//	}
+	}
 
 	/**
 	 * find Compte By Email Client ** This operation allows to check if the email of
@@ -117,7 +110,7 @@ public class CompteMetierImpl implements ICompteMetier {
 		logger.info("find compte by email : " + email);
 		Optional<Compte> comptefound = compteRepository.findCompteByClientEmail(email);
 		if (comptefound.isEmpty()) {
-			throw new Exception("Compte non trouvé !");
+			throw new Exception("Compte n'existe pas !");
 		}
 
 		logger.info("Compte found : " + comptefound.get().getClient().getFirstName() + " "

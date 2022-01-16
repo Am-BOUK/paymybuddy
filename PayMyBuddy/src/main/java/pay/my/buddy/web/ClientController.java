@@ -35,20 +35,6 @@ public class ClientController {
 	private IClientMetier clientMetier;
 
 	/**
-	 * Read - Get all clients
-	 * 
-	 * @return list of clients
-	 * @throws Exception
-	 */
-//	@RequestMapping(value = "/clients", method = RequestMethod.GET)
-//	public String getAllClients(Model model) throws Exception {
-//		logger.info("Getting All Clients");
-//		List<Client> clients = clientMetier.getAllClients();
-//		model.addAttribute("clients", clients);
-//		return "clients/clientsList";
-//	}
-
-	/**
 	 * Read-Get one client by id
 	 * 
 	 * @param idClient : id of the client we want to get his information
@@ -115,7 +101,7 @@ public class ClientController {
 		}
 		try {
 			clientMetier.addNewClient(client);
-			return "redirect:/profil?id="+client.getIdClient();
+			return "redirect:/profil?id=" + client.getIdClient();
 		} catch (Exception e) {
 			model.addAttribute("exception", e);
 			return "clients/addClient";
@@ -175,7 +161,7 @@ public class ClientController {
 			Client clientFound = clientMetier.findByEmail(clientEmail);
 			idClient = clientFound.getIdClient();
 			clientMetier.updateListConnection(idClient, email);
-			logger.info("Success adding : "+email);
+			logger.info("Success adding : " + email);
 			String info = "Connection adding !";
 			model.addAttribute("info", info);
 

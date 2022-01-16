@@ -52,7 +52,7 @@ public class ClientMetierImpl implements IClientMetier {
 
 		Optional<Client> clientfound = clientRepository.findById(id);
 		if (clientfound.isEmpty()) {
-			throw new Exception("Client non trouvé !");
+			throw new Exception("Client n'existe pas !");
 		}
 		logger.info("client found : " + clientfound.get().getFirstName() + " " + clientfound.get().getLastName());
 		return clientfound.get();
@@ -73,7 +73,7 @@ public class ClientMetierImpl implements IClientMetier {
 		logger.info("find client by id : " + email);
 		Optional<Client> clientfound = clientRepository.findClientByEmail(email);
 		if (clientfound.isEmpty()) {
-			throw new Exception("Client : " + email + ", non trouvé !");
+			throw new Exception("Client : " + email + ", n'existe pas !");
 		}
 
 		logger.info("client found : " + clientfound.get().getFirstName() + " " + clientfound.get().getLastName());
@@ -139,13 +139,13 @@ public class ClientMetierImpl implements IClientMetier {
 		Client connection = findByEmail(email);
 
 		if (clientFound.getEmail().contains(email)) {
-			throw new Exception("Opération impossible : vous êtes le propriétaire de cette email!");
+			throw new Exception("Operation impossible : c'est votre email !");
 		}
 
 		logger.info("adding connection !");
 		if (clientFound.getConnections().contains(connection)) {
-			logger.info("Connection : " + email + ", existe déjà!");
-			throw new Exception("Connection : " + email + ", existe déjà!");
+			logger.info("Connection : " + email + ", existe deja!");
+			throw new Exception("Connection : " + email + ", existe deja!");
 		}
 		clientFound.getConnections().add(connection);
 		return clientRepository.saveAndFlush(clientFound);

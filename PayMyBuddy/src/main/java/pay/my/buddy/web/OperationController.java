@@ -35,19 +35,6 @@ public class OperationController {
 	@Autowired
 	private ICompteMetier compteMetier;
 
-//	/**
-//	 * Read - Get all operations
-//	 * 
-//	 * @return list of operations
-//	 */
-//	@RequestMapping(value = "/operations", method = RequestMethod.GET)
-//	public String getAllOperations(Model model) {
-//		logger.info("Getting All operations");
-//		List<Operation> operations = operationMetier.listAllOperations();
-//		model.addAttribute("operations", operations);
-//		return "operations/operationsList";
-//	}
-
 	/**
 	 * save operation ** this method allows to save a operation to database
 	 * 

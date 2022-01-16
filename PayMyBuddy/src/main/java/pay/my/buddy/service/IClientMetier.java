@@ -17,10 +17,6 @@ public interface IClientMetier {
 
 	public Client addNewClient(Client client) throws Exception;
 
-//	public List<Client> getAllClients() throws Exception;
-//
-//	public Page<Client> getAllClientsByPage(int page, int size);
-
 	public Client updateListConnection(Long idClient, String email) throws Exception;
 
 	public Client findById(Long id) throws Exception;

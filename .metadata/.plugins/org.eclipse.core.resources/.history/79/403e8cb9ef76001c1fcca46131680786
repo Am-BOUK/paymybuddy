@@ -1,0 +1,40 @@
+package pay.my.buddy;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import pay.my.buddy.dal.ClientRepository;
+import pay.my.buddy.dal.CompteRepository;
+import pay.my.buddy.dal.OperationRepository;
+import pay.my.buddy.entities.Client;
+import pay.my.buddy.entities.Compte;
+import pay.my.buddy.entities.Retrait;
+import pay.my.buddy.entities.Versement;
+import pay.my.buddy.entities.VirementReceive;
+import pay.my.buddy.entities.VirementSent;
+import pay.my.buddy.service.ClientMetierImpl;
+import pay.my.buddy.service.CompteMetierImpl;
+import pay.my.buddy.service.IClientMetier;
+import pay.my.buddy.service.IOperationMetier;
+
+@SpringBootApplication
+public class PayMyBuddyApplication implements CommandLineRunner {
+	
+	public static void main(String[] args) {
+		SpringApplication.run(PayMyBuddyApplication.class, args);
+
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+
+	}
+
+}

@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import pay.my.buddy.entities.Compte;
 import pay.my.buddy.entities.Operation;
 
-
 /**
  * 
  * business interface that will allow implementation of application-specific
@@ -27,5 +26,4 @@ public interface IOperationMetier {
 
 	public Compte virement(Long idSender, String emailReceiper, double montant, String description) throws Exception;
 
-//	public List<Operation> listAllOperations();
 }

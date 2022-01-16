@@ -18,18 +18,18 @@ import pay.my.buddy.entities.Client;
 @Service
 public class UserServiceDetailsImpl implements UserDetailsService {
 
-    @Autowired
-    private ClientRepository clientRepository;
+	@Autowired
+	private ClientRepository clientRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        final Optional<Client> user = clientRepository.findClientByEmail(email);
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		final Optional<Client> user = clientRepository.findClientByEmail(email);
 
-        if (user.isPresent()){
-            return new User(email, user.get().getPassword(), new ArrayList<GrantedAuthority>());
-        }else{
-            throw new InternalAuthenticationServiceException("User : "+email+", not found!");
-        }
-    }
+		if (user.isPresent()) {
+			return new User(email, user.get().getPassword(), new ArrayList<GrantedAuthority>());
+		} else {
+			throw new InternalAuthenticationServiceException("User : " + email + ", not found!");
+		}
+	}
 
 }

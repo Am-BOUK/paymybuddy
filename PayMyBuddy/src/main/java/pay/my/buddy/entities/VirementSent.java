@@ -7,14 +7,14 @@ import javax.persistence.Entity;
 
 /**
  * 
- * implementation of business object : virement sent that it is one of
- * operation type
+ * implementation of business object : virement sent that it is one of operation
+ * type
  *
  * the virement sent data has two attribute : id recipient and name recipient
  */
 @Entity
 @DiscriminatorValue("S")
-public class VirementSent extends Operation{
+public class VirementSent extends Operation {
 	private Long idRecipient;
 	private String nameRecipient;
 
@@ -42,9 +42,5 @@ public class VirementSent extends Operation{
 		super(dateOperation, amount, description, compte);
 		this.idRecipient = idRecipient;
 	}
-	
-	
-	
-	
 
 }

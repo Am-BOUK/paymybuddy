@@ -12,39 +12,37 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+/**
+ * Configuration class used to define the application authentication. It use the
+ * BCryptPasswordEncoder class to encrypt the password. <br>
+ * It extends the WebSecurityConfigurerAdapter abstract class.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public UserDetailsService userDetailsService;
-	
+
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception
-	{
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 	}
-	
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests()
-		.antMatchers("/saveClient","/saveCompte").permitAll()
-		.and()
-		.formLogin()
-		.loginPage("/login")
-		.defaultSuccessUrl("/transfer", true)	
-         .and()
-         .authorizeRequests()
-//         .anyRequest().authenticated()
-         .antMatchers("/","/transfer","/profil").authenticated()
-         .and()
-         .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout");
-         
-
+		http.authorizeHttpRequests().antMatchers("/saveClient", "/saveCompte").permitAll().and().formLogin()
+				.loginPage("/login").defaultSuccessUrl("/transfer", true).and().authorizeRequests()
+				.antMatchers("/", "/transfer", "/profil").authenticated().and().logout()
+				.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout");
 
 	}
 
+	/**
+	 * Define a passwordEncoder.
+	 * 
+	 * @return PasswordEncoder that uses the BCrypt
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

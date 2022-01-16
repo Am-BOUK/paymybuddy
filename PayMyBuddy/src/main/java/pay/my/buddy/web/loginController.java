@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class loginController {
-	Logger Logger = LoggerFactory.getLogger(loginController. class);
+	Logger Logger = LoggerFactory.getLogger(loginController.class);
 
 	/**
 	 * 
@@ -18,17 +18,15 @@ public class loginController {
 		Logger.info("get loging");
 		return "login.html";
 	}
+
 	/**
 	 * 
-	 * @return login web page
+	 * @return home web page
 	 */
 	@GetMapping("/home")
 	public String home() {
 		Logger.info("get home");
 		return "home.html";
 	}
-//	@GetMapping("/logout")
-//	public String logout() {
-//		return "redirect:/login?logout";
-//	}
+
 }

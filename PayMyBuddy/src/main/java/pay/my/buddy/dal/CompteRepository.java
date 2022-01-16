@@ -19,7 +19,7 @@ import pay.my.buddy.entities.Compte;
 public interface CompteRepository extends JpaRepository<Compte, Long> {
 	@Query(nativeQuery = true, value = "SELECT * FROM Compte WHERE ID_CLIENT LIKE :x")
 	public Compte findCompteByIdClient(@Param("x") Long idClient);
-	
-	public Optional<Compte>  findCompteByClientEmail(String email);
+
+	public Optional<Compte> findCompteByClientEmail(String email);
 
 }

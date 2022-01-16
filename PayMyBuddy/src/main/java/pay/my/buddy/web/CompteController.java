@@ -43,20 +43,6 @@ public class CompteController {
 	private IOperationMetier operationMetier;
 
 	/**
-	 * Read - Get all comptes
-	 * 
-	 * @return list of comptes
-	 * @throws Exception
-	 */
-//	@RequestMapping(value = "/comptes", method = RequestMethod.GET)
-//	public String getAllComptes(Model model) throws Exception {
-//		logger.info("Getting All Comptes");
-//		List<Compte> comptes = compteMetier.getAllComptes();
-//		model.addAttribute("comptes", comptes);
-//		return "comptes/comptesList";
-//	}
-
-	/**
 	 * Consult / get compte by id
 	 * 
 	 * @param idCompte : id of the compte we want to get his information
@@ -96,27 +82,6 @@ public class CompteController {
 
 		return "compteView";
 	}
-
-//	/**
-//	 * Read-Get one compte by id compte
-//	 * 
-//	 * @param id compte
-//	 * @return getCompte.html
-//	 * @throws Exception
-//	 */
-//	@RequestMapping(value = "/compteByIdClient", method = RequestMethod.GET)
-//	public String getClientByIdClient(Long idClient, Model model) throws Exception {
-//		model.addAttribute("idClient", idClient);
-//		logger.info("Getting compte by id client");
-//		try {
-//			Compte compte = compteMetier.findCompteByIdClient(idClient);
-//			model.addAttribute("compte", compte);
-//		} catch (Exception e) {
-//			model.addAttribute("exception", e);
-//		}
-//
-//		return "comptes/getCompteByIdClient";
-//	}
 
 	/**
 	 * show Add Compte web page ** this method allows to show the web page that will

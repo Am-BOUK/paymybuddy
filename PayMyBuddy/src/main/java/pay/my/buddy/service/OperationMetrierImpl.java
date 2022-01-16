@@ -5,8 +5,6 @@ import java.math.RoundingMode;
 import java.util.Date;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,10 +63,10 @@ public class OperationMetrierImpl implements IOperationMetier {
 	@Override
 	public Compte verser(Long idCompte, double money, String description) throws Exception {
 		logger.info("verser dans le compte numéro : " + idCompte);
-		if(money==0 || description.isBlank()) {
+		if (money == 0 || description.isBlank()) {
 			throw new Exception("Amount and description are mandatory, they can't be null !");
 		}
-		
+
 		Optional<Compte> compte = compteRepository.findById(idCompte);
 		Versement versement = new Versement(new Date(), money, description, compte.get());
 		double facturation = money * Fare.FACTURATION;
@@ -79,8 +77,8 @@ public class OperationMetrierImpl implements IOperationMetier {
 		double amountArounded = bigDecimal.doubleValue();
 		compte.get().setAmount(amountArounded);
 		compteRepository.save(compte.get());
-		logger.info("versement effectué avec succée");
-		
+		logger.info("versement effectue avec succee");
+
 		return compte.get();
 
 	}
@@ -95,13 +93,13 @@ public class OperationMetrierImpl implements IOperationMetier {
 	 * @param idCompte    : id of the count
 	 * @param money       : amount to be withdrawn from the account
 	 * @param description : the description of the payment operation
-	 * @return 
+	 * @return
 	 * @throws Exception
 	 */
 	@Override
 	public Compte retirer(Long idCompte, double money, String description) throws Exception {
 		logger.info("retirer du compte numéro : " + idCompte);
-		if(money==0 || description.isBlank()) {
+		if (money == 0 || description.isBlank()) {
 			throw new Exception("Amount and description are mandatory, they can't be null !");
 		}
 		Optional<Compte> compte = compteRepository.findById(idCompte);
@@ -133,7 +131,7 @@ public class OperationMetrierImpl implements IOperationMetier {
 	 * @param money         : amount to be withdrawn from the sending account and
 	 *                      adding to the receiving account
 	 * @param description   : the description of the transfer operation
-	 * @return 
+	 * @return
 	 * @throws Exception
 	 */
 	@Override
@@ -143,7 +141,7 @@ public class OperationMetrierImpl implements IOperationMetier {
 		Optional<Compte> compteSender = compteRepository.findById(idSender);
 		Optional<Compte> compteRecipient = compteRepository.findCompteByClientEmail(emailReceiper);
 		if (idSender.equals(compteRecipient.get().getIdCompte())) {
-			throw new Exception("Opération impossible : virement sur le même compte");
+			throw new Exception("Operation impossible : virement sur le meme compte");
 		}
 		double facturation = money * Fare.FACTURATION;
 
@@ -183,10 +181,5 @@ public class OperationMetrierImpl implements IOperationMetier {
 		logger.info("liste des opération par page");
 		return operationRepository.listOperation(idCompte, PageRequest.of(page, size));
 	}
-//
-//	@Override
-//	public List<Operation> listAllOperations() {
-//		logger.info("liste de toutes les opérations");
-//		return operationRepository.findAll();
-//	}
+
 }

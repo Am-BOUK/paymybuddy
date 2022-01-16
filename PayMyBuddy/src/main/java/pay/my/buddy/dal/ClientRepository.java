@@ -2,8 +2,6 @@ package pay.my.buddy.dal;
 
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,7 +26,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 	 * "SELECT * FROM Client WHERE email LIKE :x") public Optional<Client>
 	 * findClientByFirstNameOrLAstName(@Param("x") String email);
 	 */
-	
+
 	@Query(nativeQuery = true, value = "SELECT * FROM Client WHERE email LIKE :x")
 	public Optional<Client> findClientByEmail(@Param("x") String email);
 
