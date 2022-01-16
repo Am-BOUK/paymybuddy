@@ -1,15 +1,15 @@
 # PayMyBoddy
 
 ## Description
-![homepage](https://github.com/Am-BOUK/paymybuddy/blob/main/images/homepage.png)
+![homepage](https://github.com/Am-BOUK/paymybuddy/blob/main/PayMyBuddy/images/homepage.png)
 
 Pay my Buddy is an app that allows clients to transfer money to manage their finances or pay their connections (friends)
 
 ### UML Diagram
-![diagrammeUML](https://github.com/Am-BOUK/paymybuddy/blob/main/images/homepage.png)
+![diagrammeUML](https://github.com/Am-BOUK/paymybuddy/blob/main/PayMyBuddy/images/P6_02_diagrammeUML.png)
 
 ### Physical data model
-![Physical data model](https://github.com/Am-BOUK/paymybuddy/blob/main/images/P6_03_Modèle_PhysiqueDonnées.png)
+![Physical data model](https://github.com/Am-BOUK/paymybuddy/blob/main/PayMyBuddy/images/P6_03_Modèle_PhysiqueDonnées.png)
 
 
 ## Getting Started
