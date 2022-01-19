@@ -53,15 +53,9 @@
 							<div>
 								<label>Solde : </label> <label th:text="${compte.amount}"></label>
 							</div>
-
-
-
 						</div>
 					</div>
 				</div>
-
-
-
 
 				<div class="col-sm-6" th:if="${compte}">
 					<div class="card">
@@ -72,7 +66,6 @@
 								<span class="btn rounded-pill btn-outline-success"
 									onclick="document.getElementById('forAddConnection').style.display='block'">Ajouter
 									une connection</span>
-
 							</div>
 							<br>
 							<form id="forAddConnection" style="display: none"
@@ -81,10 +74,7 @@
 
 
 								<button type="submit" class="btn btn-success">Ajouter</button>
-
 							</form>
-
-
 
 							<form th:action="@{saveOperation}" method="post">
 								<div>
@@ -107,7 +97,6 @@
 											th:value="${connectionsList.email}"
 											th:text="${connectionsList.email}+' : '+${connectionsList.lastName}+' '+${connectionsList.firstName}"></option>
 									</select>
-
 
 								</div>
 								<div>

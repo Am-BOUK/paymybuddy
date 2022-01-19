@@ -155,7 +155,7 @@ public class OperationMetrierImpl implements IOperationMetier {
 		compteSender.get().setAmount(amountSenderArounded);
 		compteRepository.save(compteSender.get());
 
-		double amountRecipient = compteSender.get().getAmount() + money;
+		double amountRecipient = compteRecipient.get().getAmount() + money;
 		bigDecimal = new BigDecimal(amountRecipient).setScale(Rounding.DECIMAL, RoundingMode.FLOOR);
 		double amountRecipientArounded = bigDecimal.doubleValue();
 		compteRecipient.get().setAmount(amountRecipientArounded);

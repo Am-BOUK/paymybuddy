@@ -17,16 +17,13 @@ import pay.my.buddy.entities.Client;
  */
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-//	@Query(nativeQuery = true, value = "SELECT * FROM Client WHERE first_name Like :x")
-	/*
-	 * public Page<Client> findClientByName(@Param("x") String name, Pageable
-	 * pageable);
+	/**
+	 * findClientByEmail ** this method allows to select all attributes of client 
+	 * by giving email
 	 * 
-	 * @Query(nativeQuery = true, value =
-	 * "SELECT * FROM Client WHERE email LIKE :x") public Optional<Client>
-	 * findClientByFirstNameOrLAstName(@Param("x") String email);
+	 * @param email
+	 * @return Client object
 	 */
-
 	@Query(nativeQuery = true, value = "SELECT * FROM Client WHERE email LIKE :x")
 	public Optional<Client> findClientByEmail(@Param("x") String email);
 

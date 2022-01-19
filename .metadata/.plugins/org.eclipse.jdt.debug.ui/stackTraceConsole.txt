@@ -1,5 +1,9 @@
-java.lang.NullPointerException: Cannot invoke "org.springframework.data.domain.Page.getContent()" because the return value of "pay.my.buddy.dal.OperationRepository.listOperation(java.lang.Long, org.springframework.data.domain.Pageable)" is null
-	at pay.my.buddy.service.OperationServiceTest.testListOperation(OperationServiceTest.java:245)
+java.lang.AssertionError: 
+Expecting actual:
+  "Operation impossible : virement sur le meme compte"
+to contain:
+  "Opération impossible : virement sur le même compte" 
+	at pay.my.buddy.service.OperationServiceTest.testVirement_whenSenderIsReceiper(OperationServiceTest.java:194)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

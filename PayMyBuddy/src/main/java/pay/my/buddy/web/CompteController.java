@@ -83,29 +83,4 @@ public class CompteController {
 		return "compteView";
 	}
 
-	/**
-	 * show Add Compte web page ** this method allows to show the web page that will
-	 * direct us to the registration form
-	 * 
-	 * @return a saveCompte page web
-	 */
-	@RequestMapping(value = { "/saveCompte" }, method = RequestMethod.GET)
-	public String showAddComptePage() {
-		logger.info("show Add Compte web page");
-		return "comptes/addCompte";
-	}
-
-	/**
-	 * save compte ** this method allows to direct us to the registeration form
-	 * 
-	 * 
-	 * @return a saveClient web page
-	 */
-	@RequestMapping(value = { "/saveCompte" }, method = RequestMethod.POST)
-	public String saveCompte() throws Exception {
-		logger.info("redirect to save client web page");
-
-		return "redirect:/saveClient";
-	}
-
 }
